@@ -1,64 +1,19 @@
-#include "test.h"
+#include "stack.h"
 
 int main()
 {
-    FILE* word_com = fopen ("test.asm", "r");
-    FILE* num_com =  fopen ("test.code","a");
-    char* command = (char*) calloc (100, sizeof (char));
-    for (int i = 0;; i++)
-    {
-        printf ("%d\n", i);
-        char c = '\0';
-        int num_of_sym = 0;
-        while (c = fgetc (word_com))
-        {
-            if (c == '\n' || c == 32)
-            {
-                break;
-            }
-            command [num_of_sym] = c;
-            printf ("%c\n", c);
-            num_of_sym++;
-        }
+    struct stack_t box = {};
 
-        if (strcmp (command, "push") == 0)
-        {
-            int value = 0;
-            fscanf (word_com,"%d", &value);
-            fprintf (num_com, "%d %d\n", PUSH, value);
-            printf("%d\n", value);
-            continue;
-        }
+    stack_init(&box, box.capacity);
 
-        command [num_of_sym - 1] = '\0';
-        if (strcmp (command, "add") == 0)
-        {
-            printf ("%s\n", command);
-            fprintf (num_com, "%d\n", ADD);
-            continue;
-        }
+    assembler();
+    int elem = 0;
+    processor (&box, elem);
 
-        else if (strcmp (command, "mul") == 0)
-        {
-            fprintf (num_com, "%d\n", MUL);
-            continue;
-        }
-
-        else if (strcmp (command, "out") == 0)
-        {
-            fprintf (num_com, "%d\n", OUT);
-            continue;
-        }
-
-        else if (strcmp (command, "hlt") == 0)
-        {
-            fprintf (num_com, "%d\n", HLT);
-            free (command);
-            break;
-        }
-
-    }
-    fprintf (num_com, "------End of list of commands------\n");
-    fclose (word_com);
-    fclose (num_com);
+    stack_dump(&box, __FILE__, __FUNCTION__, __LINE__, 1);
+    stack_delete(&box);
+    return 0;
 }
+
+
+
