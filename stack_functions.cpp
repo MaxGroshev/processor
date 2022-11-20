@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #include "processor.h"
-=======
-#include "stack.h"
->>>>>>> refs/remotes/origin/main
 
 void stack_init(stack_t* box, size_t capacity)
 {

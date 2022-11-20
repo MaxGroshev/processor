@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #include "processor.h"
-=======
-#include "stack.h"
->>>>>>> refs/remotes/origin/main
 
 int stack_check(stack_t* box)
 {

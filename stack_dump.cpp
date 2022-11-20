@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #include "processor.h"
-=======
-#include "stack.h"
->>>>>>> refs/remotes/origin/main
 
 int stack_dump(stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LINE, int print_stack)
 {
