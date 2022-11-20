@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum code_of_com
+enum  code_of_com
 {
     PUSH = 1,
     ADD  = 2,
