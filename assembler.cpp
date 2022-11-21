@@ -4,31 +4,49 @@ void assembler ()
 {
     FILE* word_com = fopen ("test.asm", "r");
     FILE* num_com =  fopen ("test.code","a");
-    char* command = (char*) calloc (100, sizeof (char));
-    for (int i = 0;; i++)
+
+    size_t count_of_strings = 5;    //count of strings to which memory will be allocated
+    int symb_in_com [10];           //count of symbols in each command (use to request memory)
+    char** com_strings = (char**) calloc (count_of_strings, sizeof (char*)); //array of pointers to commands
+
+    size_t count_of_com = 0;        //count of commands that assembler will translate
+    while(!feof (word_com))
     {
-        char c = '\0';
-        int num_of_sym = 0;
-        while (c = fgetc (word_com))
+        size_t len = 5;
+        char* buffer = NULL;
+        if (count_of_com >= count_of_strings)
         {
-            if (c == '\n' || c == 32)
+            count_of_strings += 10;
+            char** com_strings_resize = com_strings;
+            com_strings_resize = (char**) realloc (com_strings, (count_of_strings) * sizeof (char*));
+            if (com_strings_resize != NULL)
             {
-                break;
+                com_strings = com_strings_resize;
             }
-            command [num_of_sym] = c;
-            num_of_sym++;
+            else
+            {
+                printf ("Count of comands is to much\n");
+            }
         }
+        symb_in_com [count_of_com] = getline (&buffer, &len, word_com);
+        com_strings [count_of_com] = buffer;
+        count_of_com++;
+    }
+
+    for (int i = 0; i < count_of_com; i++)
+    {
+        char command [4];
+        int value = 0;
+        sscanf (com_strings [i], "%s %d", command, &value);
 
         if (strcmp (command, "push") == 0)
         {
-            int value = 0;
             fscanf (word_com,"%d", &value);
             fprintf (num_com, "%d %d\n", PUSH, value);
             continue;
         }
 
-        command [num_of_sym - 1] = '\0';
-        if (strcmp (command, "add") == 0)
+        else if (strcmp (command, "add") == 0)
         {
             fprintf (num_com, "%d\n", ADD);
             continue;
@@ -49,12 +67,11 @@ void assembler ()
         else if (strcmp (command, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
-            free (command);
-            break;
+            continue;
         }
-
     }
     fprintf (num_com, "------End of list of commands------\n");
     fclose (word_com);
     fclose (num_com);
+    free(com_strings);
 }
