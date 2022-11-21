@@ -1,6 +1,6 @@
 #include "processor.h"
 
-int stack_check(stack_t* box)
+int stack_check (stack_t* box)
 {
     if (box->data == NULL)
     {

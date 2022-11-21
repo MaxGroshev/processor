@@ -4,7 +4,7 @@ int main()
 {
     struct stack_t box = {};
 
-    stack_init (&box, box.capacity);
+    stack_init (&box);
 
     assembler();
     int elem = 0;

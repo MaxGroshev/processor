@@ -1,6 +1,6 @@
-#include "test.h"
+#include "processor.h"
 
-void assembler()
+void assembler ()
 {
     FILE* word_com = fopen ("test.asm", "r");
     FILE* num_com =  fopen ("test.code","a");

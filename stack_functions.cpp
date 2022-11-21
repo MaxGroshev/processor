@@ -1,8 +1,8 @@
 #include "processor.h"
 
-void stack_init (stack_t* box, size_t capacity)
+void stack_init (stack_t* box)
 {
-    box->data = (type_of_elem*) calloc (box->capacity, sizeof(type_of_elem));
+    box->data = (type_of_elem*) calloc (box->capacity, sizeof (type_of_elem));
 
     STACK_CHECK
 }
