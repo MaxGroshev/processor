@@ -6,4 +6,3 @@ push 12
 mul
 out
 hlt
-

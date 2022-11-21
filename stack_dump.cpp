@@ -1,12 +1,12 @@
 #include "processor.h"
 
-int stack_dump(stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LINE, int print_stack)
+int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LINE, int print_stack)
 {
     int status = stack_check(box);
-    FILE* print_fail = fopen("stack.txt", "a");
+    FILE* print_fail = fopen ("stack.txt", "a");
     if (status != 0)
     {
-        fprintf(stderr, "Error of running program, check stack.txt! \007\n");
+        fprintf (stderr,"Error of running program, check stack.txt! \007\n");
         fprintf (print_fail,"ERROR IN FILE %s, FUNCTION %s, LINE %d\n", DUR_FILE, FUNCTION, LINE);
         switch (status)
         {
@@ -27,20 +27,20 @@ int stack_dump(stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LIN
         }
     }
 
-    for(int i = 0; i < box->capacity && print_stack == 1; i++)
+    for (int i = 0; i < box->capacity && print_stack == 1; i++)
     {
         if (i == box->counter)
         {
-            fprintf(print_fail,"%3d [%d] - Current cell\n", i, box->data[i]);
+            fprintf (print_fail,"%3d [%d] - Current cell\n", i, box->data[i]);
             continue;
         }
         fprintf(print_fail,"%3d [%d]\n", i, box->data[i]);
         if (i + 1 == box->capacity)
         {
-            fprintf(print_fail,"-----End of the current print-----\n");
+            fprintf (print_fail,"-----End of the current print-----\n");
         }
     }
-    fclose(print_fail);
+    fclose (print_fail);
     return status;
 }
 

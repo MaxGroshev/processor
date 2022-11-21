@@ -7,12 +7,12 @@ int stack_check(stack_t* box)
         return ERR_NULL_DATA;
     }
 
-    if (sizeof(box->data[box->counter - 1]) != sizeof(type_of_elem))
+    if (sizeof (box->data[box->counter - 1]) != sizeof (type_of_elem))
     {
         return WRONG_INPUT;
     }
 
-    if(box->counter == -1)
+    if (box->counter == -1)
     {
         return OUT_OF_STACK;
     }

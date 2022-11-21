@@ -24,7 +24,7 @@ void processor (stack_t* box, int elem)
 
             case OUT:
                 elem = stack_pop (box);
-                printf("%d\n", elem);
+                printf ("%d\n", elem);
                 break;
 
             case HLT:

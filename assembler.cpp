@@ -57,5 +57,4 @@ void assembler()
     fprintf (num_com, "------End of list of commands------\n");
     fclose (word_com);
     fclose (num_com);
-
 }
