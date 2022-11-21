@@ -33,7 +33,7 @@ void assembler()
         symb_in_com [count_of_com] = getline (&buffer, &len, word_com);
         com_strings [count_of_com] = buffer;
         count_of_com++;
-        free (buffer);
+        //free (buffer);
     }
     count_of_com--;
 
