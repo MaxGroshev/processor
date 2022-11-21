@@ -12,8 +12,6 @@ void assembler()
     size_t count_of_com = 0;        //count of commands that assembler will translate
     while(!feof (word_com))
     {
-
-
         if (count_of_com >= count_of_strings)
         {
             count_of_strings += 10;
