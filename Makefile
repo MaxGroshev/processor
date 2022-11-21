@@ -9,6 +9,9 @@ main: main.o
 assembler: assembler.o
 	$(CC) $(CFLAGS) assembler.cpp -o assembler
 
+valgrind:
+	valgrind ./main
+
 clean:
 	rm -rf *.o main
 

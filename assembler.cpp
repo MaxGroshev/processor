@@ -1,6 +1,6 @@
 #include "processor.h"
 
-void assembler ()
+void assembler()
 {
     FILE* word_com = fopen ("test.asm", "r");
     FILE* num_com =  fopen ("test.code","a");
@@ -12,8 +12,8 @@ void assembler ()
     size_t count_of_com = 0;        //count of commands that assembler will translate
     while(!feof (word_com))
     {
-        size_t len = 5;
-        char* buffer = NULL;
+
+
         if (count_of_com >= count_of_strings)
         {
             count_of_strings += 10;
@@ -28,14 +28,18 @@ void assembler ()
                 printf ("Count of comands is to much\n");
             }
         }
+        size_t len = 5;
+        char* buffer = NULL;
         symb_in_com [count_of_com] = getline (&buffer, &len, word_com);
         com_strings [count_of_com] = buffer;
         count_of_com++;
+        free (buffer);
     }
+    count_of_com--;
 
     for (int i = 0; i < count_of_com; i++)
     {
-        char command [4];
+        char* command = (char*) calloc (symb_in_com[i] - 1, sizeof (char));
         int value = 0;
         sscanf (com_strings [i], "%s %d", command, &value);
 
@@ -43,35 +47,39 @@ void assembler ()
         {
             fscanf (word_com,"%d", &value);
             fprintf (num_com, "%d %d\n", PUSH, value);
+            free (command);
             continue;
         }
 
         else if (strcmp (command, "add") == 0)
         {
             fprintf (num_com, "%d\n", ADD);
+            free (command);
             continue;
         }
 
         else if (strcmp (command, "mul") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
+            free (command);
             continue;
         }
 
         else if (strcmp (command, "out") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
+            free (command);
             continue;
         }
 
         else if (strcmp (command, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
-            continue;
+            free (command);
         }
     }
-    fprintf (num_com, "------End of list of commands------\n");
+    fprintf(num_com, "------End of list of commands------\n");
     fclose (word_com);
     fclose (num_com);
-    free(com_strings);
+    free   (com_strings);
 }
