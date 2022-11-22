@@ -30,7 +30,7 @@ struct stack_t
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 
-void stack_init    (stack_t* box);
+void stack_init   (stack_t* box);
 void stack_push   (stack_t* box, type_of_elem element);
 int  stack_pop    (stack_t* box);
 int  stack_check  (stack_t* box);

@@ -28,6 +28,7 @@ void processor (stack_t* box, int elem)
                 break;
 
             case HLT:
+                fclose (num_com);
                 break;
         }
     }

@@ -10,7 +10,7 @@ assembler: assembler.o
 	$(CC) $(CFLAGS) assembler.cpp -o assembler
 
 valgrind:
-	valgrind ./main
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./main
 
 clean:
 	rm -rf *.o main
