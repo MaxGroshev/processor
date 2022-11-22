@@ -8,12 +8,9 @@ void assembler()
     size_t count_of_strings = 5;    //count of strings to which memory will be allocated
     int symb_in_com [10];           //count of symbols in each command (use to request memory)
     char** com_strings = (char**) calloc (count_of_strings, sizeof (char*)); //array of pointers to commands
-
     size_t count_of_com = 0;        //count of commands that assembler will translate
     while(!feof (word_com))
     {
-
-
         if (count_of_com >= count_of_strings)
         {
             count_of_strings += 10;
@@ -29,11 +26,9 @@ void assembler()
             }
         }
         size_t len = 5;
-        char* buffer = NULL;
-        symb_in_com [count_of_com] = getline (&buffer, &len, word_com);
-        com_strings [count_of_com] = buffer;
+
+        symb_in_com [count_of_com] = getline (&com_strings [count_of_com], &len, word_com);
         count_of_com++;
-        //free (buffer);
     }
     count_of_com--;
 
