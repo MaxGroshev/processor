@@ -3,9 +3,9 @@
 void assembler()
 {
     FILE* word_com = fopen ("test.asm", "r");
-    FILE* num_com =  fopen ("test.code","a");
+    FILE* num_com =  fopen ("test.code","w");
 
-    size_t count_of_strings = 7;    //count of strings to which memory will be allocated
+    size_t count_of_strings = 5;    //count of strings to which memory will be allocated //fault is here
     char** com_strings = (char**) calloc (count_of_strings, sizeof (char*)); //array of pointers to commands
     size_t count_of_com = 0;        //count of commands that assembler will translate
     while (!feof (word_com))
@@ -71,7 +71,7 @@ void assembler()
             free (command);
         }
     }
-    fprintf(num_com, "------End of list of commands------\n");
+   // fprintf(num_com, "------End of list of commands------\n");
     fclose (word_com);
     fclose (num_com);
     free   (com_strings);

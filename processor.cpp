@@ -1,16 +1,20 @@
 #include "processor.h"
+void read_num_com (int* code_of_com, int* size_of_com);
 
 void processor (stack_t* box, int elem)
 {
-    FILE* num_com = fopen ("test.code", "r");
-    int code_of_com = 0;
-    while (code_of_com != HLT)
+
+    //int* code_of_com[];
+    int size_of_com = 10;
+    int* code_of_com = (int*) realloc (size_of_com, sizeof (int));
+    read_num_com (code_of_com, &size_of_com);
+    for (int i = 0; code_of_com[i] != HLT; i++)
     {
-        fscanf (num_com, "%d", &code_of_com);
-        switch (code_of_com)
+        switch (code_of_com[i])
         {
             case PUSH:
-                fscanf (num_com, "%d", &elem);
+                i++;
+                elem = code_of_com[i];// i++ ?
                 stack_push (box, elem);
                 break;
 
@@ -28,13 +32,47 @@ void processor (stack_t* box, int elem)
                 break;
 
             case HLT:
-                fclose (num_com);
                 break;
         }
     }
+    free (code_of_com);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
+
+void read_num_com (int* code_of_com, int* size_of_com)
+{
+    FILE* num_com = fopen ("test.code", "r");
+    for (int i = 0; i < 14; i++)
+    {
+        if (*size_of_com <= i)
+        {
+            *size_of_com += 10;
+            int* code_of_com_resize = code_of_com;
+            code_of_com_resize = (int*) realloc (code_of_com, *size_of_com * sizeof (int));
+
+            if (code_of_com_resize != NULL)
+            {
+                code_of_com = code_of_com_resize;
+            }
+
+            else
+            {
+                printf ("eroor of reallocating\n");
+            }
+        }
+        int buffer = 0;
+        fscanf (num_com,"%d", &buffer);
+        printf ("%d\n", buffer);
+        if (feof (num_com))
+        {
+            break;
+        }
+        code_of_com[i] = buffer;
+    }
+    fclose (num_com);
+}
+
 
 void stack_add (stack_t* box, int elem)
 {
