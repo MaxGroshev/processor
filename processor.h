@@ -12,7 +12,7 @@ enum code_of_com
 
 //--------------------------------------------------------------------------------------
 
-void processor (stack_t* box, int elem);
-void assembler ();
-void stack_add (stack_t* box, int elem);
-void stack_mul (stack_t* box, int elem);
+void processor    (stack_t* box, int elem);
+int* read_num_com ();
+void stack_add    (stack_t* box, int elem);
+void stack_mul    (stack_t* box, int elem);

@@ -7,7 +7,6 @@ int main()
 
     stack_init (&box);
 
-    assembler();
     int elem = 0;
     processor (&box, elem);
 
