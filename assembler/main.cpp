@@ -1,12 +1,5 @@
 #include "assembler.h"
 
-struct token
-{
-    char* com;
-    int   val;
-    int   type;
-};
-
 int main ()
 {
     FILE* word_com    = fopen ("../test.asm", "r");

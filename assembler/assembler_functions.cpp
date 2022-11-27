@@ -1,31 +1,12 @@
 #include "assembler.h"
 
-struct token
-{
-    char* com;
-    int   val;
-    int   type;
-};
-
 struct token* read_word_com (size_t* count_of_com, FILE* word_com)
 {
-
-    int first_pos = ftell (word_com);
-    fseek (word_com, 0, SEEK_END);
-    int size_of_file = ftell (word_com);
-    fseek (word_com, first_pos, SEEK_SET);
-    printf ("%d\n", size_of_file);
-
-    char* test_text = (char*) calloc (size_of_file, sizeof (char));
-    fread (test_text, sizeof (char), size_of_file, word_com);
-
     size_t token_mem = 10;
-    struct token* commands =(struct token*) calloc (token_mem, sizeof (struct token));
-    char* cur_tok = strtok (test_text, " \n");
-    commands[0].com = cur_tok;
-    for (int i = 1; i < 12; i++) // proplem in last symbol
+    struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
+    for (int i = 0; !feof (word_com); i++)
     {
-        if (token_mem <= i)
+        if (token_mem - 2 <= i)
         {
             token_mem += 10;
             struct token* commands_resize = commands;
@@ -41,15 +22,33 @@ struct token* read_word_com (size_t* count_of_com, FILE* word_com)
                 printf ("Eroor of reallocating\n");
             }
         }
-        commands[i].com = cur_tok;
-        (*count_of_com) ++;
-        cur_tok = strtok (NULL, " \n");
 
+        char* str = (char*) calloc (10, sizeof (char));
+        char* str_copy;
+        int value = 0;
+        int ret_val = fscanf (word_com, "%s %d", str_copy, &value);
+
+        if (((strcmp (str_copy, "push") != 0) && (ret_val != 1)) || ((strcmp (str_copy, "push") == 0) && (ret_val != 2)))
+        {
+            fprintf (stderr, "Wrong input of commands. Check ""test.asm"" and repeat again\n");
+            exit(1);
+        }
+
+        else
+        {
+            commands[i].com = str_copy;
+            if (strcmp (str_copy, "push") == 0)
+            {
+                commands[i].val = value;
+                (*count_of_com)++;
+            }
+        }
+        free (str_copy);
         printf("%s\n", commands[i].com);
+        (*count_of_com)++;
     }
+
     printf ("%ld\n", *count_of_com);
-    printf("%s\n", commands[0].com);
-    free (test_text);
     return commands;
 }
 
@@ -60,63 +59,55 @@ void translate_com (struct token* commands, const size_t count_of_com, FILE* wor
     FILE* num_com     = fopen ("../test.code","w");
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
 
-    int cmd_array[100];
-    int i = 0;
-    for (; i < count_of_com; i++)
+    int cmd_array[count_of_com];
+    for (int i = 0; i < count_of_com; i++)
     {
-        char* str = (char*) calloc (7, sizeof (char));
         int value = 0;
 
         if (strcmp (commands[i].com, "push") == 0)
         {
-            sscanf (commands[i].com, "%d", &value);
-            fprintf (num_com, "%d %d\n", PUSH, value);
+
+            fprintf (num_com, "%d %d\n", PUSH, commands[i].val);
             cmd_array[i++] = PUSH;
-            cmd_array[i++] = value;
-            free (str);
+            cmd_array[i++] = commands[i].val;
             continue;
         }
 
         else if (strcmp (commands[i].com, "add") == 0)
         {
             fprintf (num_com, "%d\n", ADD);
-            cmd_array[i++] = ADD;
-            free (str);
+            cmd_array[i] = ADD;
             continue;
         }
 
         else if (strcmp (commands[i].com, "mul") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
-            cmd_array[i++] = MUL;
-            free (str);
+            cmd_array[i] = MUL;
             continue;
         }
 
         else if (strcmp (commands[i].com, "out") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
-            cmd_array[i++] = OUT;
-            free (str);
+            cmd_array[i] = OUT;
             continue;
         }
 
         else if (strcmp (commands[i].com, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
-            cmd_array[i++] = HLT;
-            free (str);
+            cmd_array[i] = HLT;
             continue;
         }
 
         else if (strcmp (commands[i].com, "\n") == 0)
         {
             fprintf (num_com, "\n");
-            free (str);
         }
     }
     fprintf(num_com, "------End of list of commands------\n");
-    fwrite (cmd_array, sizeof (int), i , num_com_bin);
+    fwrite (cmd_array, sizeof (int), count_of_com , num_com_bin);
     fclose (num_com);
 }
 
