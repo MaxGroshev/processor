@@ -6,9 +6,6 @@ all: main
 main: main.o
 	$(CC) $(CFLAGS) main.cpp stack_check.cpp stack_functions.cpp processor.cpp stack_dump.cpp -o main
 
-assembler: assembler.o
-	$(CC) $(CFLAGS) assembler.cpp -o assembler
-
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./main
 

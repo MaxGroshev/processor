@@ -3,8 +3,6 @@ push 5
 push 20
 add
 push 12
-
-
 mul
 out
 hlt

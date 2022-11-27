@@ -40,8 +40,8 @@ int* read_num_com ()
 {
     int size_of_com = 5;
     int* code_of_com = (int*) calloc (size_of_com, sizeof (int));
-    FILE* num_com = fopen ("test.code", "r");
-    for (int i = 0;; i++)
+    FILE* num_com_bin = fopen ("test-code.bin", "rb");
+    for (int i = 0; !feof (num_com_bin); i++)
     {
         if (size_of_com <= i)
         {
@@ -61,18 +61,20 @@ int* read_num_com ()
         }
 
         int buffer = 0;
-        fscanf (num_com,"%d", &buffer);
+        fread (&buffer, sizeof (int), 1, num_com_bin);
 
-        if (feof (num_com))
+        if (feof (num_com_bin))
         {
-            break;
-        }
+            continue;
+        } // TO DO: dump processor (file is over)
+
         code_of_com[i] = buffer;
     }
-    fclose (num_com);
+    fclose (num_com_bin);
     return code_of_com;
 }
 
+//-----------------------------------------------------------------------------------------------------------
 
 void stack_add (stack_t* box, int elem)
 {
