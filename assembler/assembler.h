@@ -14,3 +14,8 @@ enum code_of_com
     OUT  = 4,
     HLT  = 5,
 };
+
+//==================================================================================================================================
+
+char** read_word_com (size_t* count_of_com, FILE* word_com);
+void   translate_com (char** com_strings, size_t* count_of_com, FILE* word_com);
