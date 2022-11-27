@@ -7,7 +7,7 @@ struct token
     int   type;
 };
 
-/*struct* read_word_com (size_t* count_of_com, FILE* word_com)
+struct token* read_word_com (FILE* word_com)
 {
 
     int first_pos = ftell (word_com);
@@ -16,27 +16,42 @@ struct token
     fseek (word_com, first_pos, SEEK_SET);
     printf ("%d\n", size_of_file);
 
-    char* test_text = (char*) calloc (size_of_file, sizeof (int));
+    char* test_text = (char*) calloc (size_of_file, sizeof (char));
     fread (test_text, sizeof (char), size_of_file, word_com);
-    //return com_strings;
 
-
-    struct commands [100] = {};
-    char* cur_tok = strtok (com_strings, " \n");
-    //char* cur_tok;
-    for (int i = 0; cur_tok; i++)
+    size_t token_mem = 1000;
+    struct token* commands =(struct token*) calloc (token_mem, sizeof (struct token));
+    char* cur_tok = strtok (test_text, " \n");
+    commands[0].com = cur_tok;
+    for (int i = 1; i < 12; i++) // proplem in last symbol
     {
+        if (token_mem <= i)
+        {
+            token_mem += 10;
+            struct token* commands_resize = commands;
+            commands_resize = (struct token*) realloc (commands, token_mem * sizeof (struct token));
+
+            if (commands_resize != NULL)
+            {
+                commands = commands_resize;
+            }
+
+            else
+            {
+                printf ("Eroor of reallocating\n");
+            }
+        }
         commands[i].com = cur_tok;
         cur_tok = strtok (NULL, " \n");
         printf("%s\n", commands[i].com);
     }
-    return commands
-
-}*/
+    free (test_text);
+    return commands;
+}
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
-/*void translate_com (char* com_strings, size_t* count_of_com, FILE* word_com)
+void translate_com (char* com_strings, size_t* count_of_com, FILE* word_com)
 {
     FILE* num_com     = fopen ("../test.code","w");
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
