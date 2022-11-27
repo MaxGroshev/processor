@@ -7,7 +7,7 @@ struct token
     int   type;
 };
 
-struct token* read_word_com (FILE* word_com)
+struct token* read_word_com (size_t* count_of_com, FILE* word_com)
 {
 
     int first_pos = ftell (word_com);
@@ -19,7 +19,7 @@ struct token* read_word_com (FILE* word_com)
     char* test_text = (char*) calloc (size_of_file, sizeof (char));
     fread (test_text, sizeof (char), size_of_file, word_com);
 
-    size_t token_mem = 1000;
+    size_t token_mem = 10;
     struct token* commands =(struct token*) calloc (token_mem, sizeof (struct token));
     char* cur_tok = strtok (test_text, " \n");
     commands[0].com = cur_tok;
@@ -42,112 +42,81 @@ struct token* read_word_com (FILE* word_com)
             }
         }
         commands[i].com = cur_tok;
+        (*count_of_com) ++;
         cur_tok = strtok (NULL, " \n");
+
         printf("%s\n", commands[i].com);
     }
+    printf ("%ld\n", *count_of_com);
+    printf("%s\n", commands[0].com);
     free (test_text);
     return commands;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
-void translate_com (char* com_strings, size_t* count_of_com, FILE* word_com)
+void translate_com (struct token* commands, const size_t count_of_com, FILE* word_com)
 {
     FILE* num_com     = fopen ("../test.code","w");
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
 
     int cmd_array[100];
-    int j = 0;
-    for (int i = 0; i < *count_of_com; i++)
+    int i = 0;
+    for (; i < count_of_com; i++)
     {
-        char* command = (char*) calloc (7, sizeof (char));
+        char* str = (char*) calloc (7, sizeof (char));
         int value = 0;
-        sscanf (com_strings, "%s %d", command, &value);
 
-        if (strcmp (command, "push") == 0)
+        if (strcmp (commands[i].com, "push") == 0)
         {
-            fscanf  (word_com,"%d", &value);
+            sscanf (commands[i].com, "%d", &value);
             fprintf (num_com, "%d %d\n", PUSH, value);
-            cmd_array[j++] = PUSH;
-            cmd_array[j++] = value;
-            free (command);
+            cmd_array[i++] = PUSH;
+            cmd_array[i++] = value;
+            free (str);
             continue;
         }
 
-        else if (strcmp (command, "add") == 0)
+        else if (strcmp (commands[i].com, "add") == 0)
         {
             fprintf (num_com, "%d\n", ADD);
-            cmd_array[j++] = ADD;
-            free (command);
+            cmd_array[i++] = ADD;
+            free (str);
             continue;
         }
 
-        else if (strcmp (command, "mul") == 0)
+        else if (strcmp (commands[i].com, "mul") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
-            cmd_array[j++] = MUL;
-            free (command);
+            cmd_array[i++] = MUL;
+            free (str);
             continue;
         }
 
-        else if (strcmp (command, "out") == 0)
+        else if (strcmp (commands[i].com, "out") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
-            cmd_array[j++] = OUT;
-            free (command);
+            cmd_array[i++] = OUT;
+            free (str);
             continue;
         }
 
-        else if (strcmp (command, "hlt") == 0)
+        else if (strcmp (commands[i].com, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
-            cmd_array[j++] = HLT;
-            free (command);
+            cmd_array[i++] = HLT;
+            free (str);
             continue;
         }
 
-        else if (strcmp (command, "\n") == 0)
+        else if (strcmp (commands[i].com, "\n") == 0)
         {
             fprintf (num_com, "\n");
-            free (command);
+            free (str);
         }
     }
     fprintf(num_com, "------End of list of commands------\n");
-    fwrite (cmd_array, sizeof (int), j , num_com_bin);
+    fwrite (cmd_array, sizeof (int), i , num_com_bin);
     fclose (num_com);
 }
 
-
-    //count of strings to which memory will be allocated //fault is here
-
-/*int count_of_strings = 5;
-    char** com_strings = (char**) calloc (count_of_strings, sizeof (char) * 10); //array of pointers to commands
-    while (!feof (word_com))
-    {
-        if (*count_of_com >= count_of_strings)
-        {
-            count_of_strings += 10;
-            char** com_strings_resize = com_strings;
-            com_strings_resize = (char**)  realloc (com_strings, (count_of_strings) * sizeof (char)*10);
-            if (com_strings_resize != NULL)
-            {
-                com_strings = com_strings_resize;
-            }
-            else
-            {
-                printf ("Error of reallocating\n");
-            }
-        }
-
-        size_t len = 6;
-
-        getline (&com_strings [*count_of_com], &len, word_com);
-        (*count_of_com)++;
-
-    }
-    (*count_of_com)--;
-    for (int i = 0; i < *count_of_com; i++)
-        {
-            printf ("%s", com_strings[i]);
-        }
-    return com_strings;*/
