@@ -3,12 +3,21 @@
 int main ()
 {
     FILE* word_com    = fopen ("../test.asm", "r");
+    size_t count_of_com =   0;
+    size_t count_of_token = 0;
 
-    size_t count_of_com = 0;   //count of commands that assembler will translate
-    char** com_strings = read_word_com (&count_of_com, word_com);
-    translate_com (com_strings, &count_of_com, word_com);
+    token* commands = read_word_com (&count_of_com, word_com);
+    for (int i = 0; i < count_of_com; i++)
+    {
+        printf("%s\n", commands[i].com);
+    }
+    int value = 0;
+
+    printf("%d\n", value);
+
+
+   // translate_com (commands, count_of_com, word_com);
 
     fclose (word_com);
-
-
+    free   (commands);
 }
