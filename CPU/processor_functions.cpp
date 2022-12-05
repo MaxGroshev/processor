@@ -1,4 +1,4 @@
-#include "processor.h"
+#include "CPU.h"
 
 void processor (stack_t* box, int elem)
 {
@@ -40,7 +40,7 @@ int* read_num_com ()
 {
     int size_of_com = 5;
     int* code_of_com = (int*) calloc (size_of_com, sizeof (int));
-    FILE* num_com_bin = fopen ("test-code.bin", "rb");
+    FILE* num_com_bin = fopen ("../test-code.bin", "rb");
     for (int i = 0; !feof (num_com_bin); i++)
     {
         if (size_of_com <= i)

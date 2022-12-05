@@ -1,4 +1,4 @@
-#include "processor.h"
+#include "CPU.h"
 
 void stack_init (stack_t* box)
 {

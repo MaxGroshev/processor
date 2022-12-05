@@ -1,4 +1,4 @@
-#include "processor.h"
+#include "CPU.h"
 
 int stack_check (stack_t* box)
 {

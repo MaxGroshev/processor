@@ -1,5 +1,4 @@
-#include "processor.h"
-
+#include "CPU.h"
 
 int main()
 {
