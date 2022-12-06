@@ -1,6 +1,6 @@
 #include "assembler.h"
 
-struct token* read_word_com (size_t* count_of_com, FILE* word_com)
+struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE* word_com)
 {
 
     int first_pos = ftell (word_com);
@@ -39,6 +39,7 @@ struct token* read_word_com (size_t* count_of_com, FILE* word_com)
         {
             cur_tok = strtok (NULL, " \n");
             commands[i - 1].val = cur_tok;
+            (*count_of_token)++;
         }
 
         cur_tok = strtok (NULL, " \n"); // mistake is here reading of NULL
@@ -52,10 +53,11 @@ struct token* read_word_com (size_t* count_of_com, FILE* word_com)
             break;
         }
         (*count_of_com)++;
+        (*count_of_token)++;
 
         //printf("%s\n", commands[i - 1].com);
     }
-    printf ("%ld\n", *count_of_com);
+    printf ("%ld\n", *count_of_token);
     //free (test_text);
     return commands;
 }
