@@ -1,9 +1,9 @@
 #include "CPU.h"
 
-void processor (stack_t* box, int elem)
+void processor (stack_t* box, processor* cpu, int elem)
 {
     int* code_of_com = read_num_com();
-
+    int  num_of_reg = 0; // cod of register
     for (int i = 0; code_of_com[i] != HLT; i++)
     {
         switch (code_of_com[i])
@@ -12,6 +12,17 @@ void processor (stack_t* box, int elem)
                 i++;
                 elem = code_of_com[i];
                 stack_push (box, elem);
+                break;
+
+            case PUSHR
+                i++;
+                code_of_reg = code_of_com[i];
+                stack_push (box, cpu->registers[code_of_reg];
+                break;
+
+            case POPR
+                i++;
+                cpu->registers[code_of_com[i]] = stack_pop (box);
                 break;
 
             case ADD:
@@ -56,7 +67,7 @@ int* read_num_com ()
 
             else
             {
-                printf ("Eroor of reallocating\n");
+                printf ("Error of reallocating\n");
             }
         }
 

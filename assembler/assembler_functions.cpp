@@ -19,7 +19,7 @@ char* read_com_asm (FILE* word_com)
     return test_text;
 }
 
-struct token* read_word_co m (size_t* count_of_com, size_t* count_of_token, char* test_text)
+struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char* test_text)
 {
 
     size_t token_mem = 10;
@@ -49,6 +49,18 @@ struct token* read_word_co m (size_t* count_of_com, size_t* count_of_token, char
         {
             cur_tok = strtok (NULL, " \r\n");
             commands[i - 1].val = cur_tok;
+            (*count_of_token)++;
+        }
+
+        else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i].com, "popr") == 0))
+        {
+            cur_tok = strtok (NULL, " \r\n");
+
+            if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax;
+            else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx;
+            else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
+            else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
+
             (*count_of_token)++;
         }
 
@@ -82,15 +94,59 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
     for (int i = 0; i < count_of_com && j < count_of_token; i++, j++)
     {
         int value = 0;
+        int code_of_reg = -1;
         if (strcmp (commands[i].com, "push") == 0)
         {
-            sscanf (commands[i].val, "%d", &value);
-            fprintf (num_com, "%d %d\n", PUSH, value);
+            if (sscanf (commands[i].val, "%d", &value) == 1);
+            {
+                fprintf (num_com, "%d %d\n", PUSH, value);
 
-            cmd_array[j] = PUSH;
-            j++;
-            cmd_array[j] = value;
-            continue;
+                cmd_array[j] = PUSH;
+                j++;
+                cmd_array[j] = value;
+                continue;
+            }
+
+            // else
+            // {
+            //     printf ("Error of input\n");
+            //     break;
+            // }
+        }
+
+        else if (strcmp (commands[i].com, "pushr") == 0)
+        {
+            if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
+            {
+                fprintf (num_com, "%d %d\n", PUSHR, code_of_reg);
+                cmd_array[j] = PUSHR;
+                j++;
+                cmd_array[j] = code_of_reg;
+                continue;
+            }
+            else
+            {
+                printf ("Error of input\n");
+                break;
+            }
+        }
+
+        else if (strcmp (commands[i].com, "popr") == 0)
+        {
+            printf ("%d\n", code_of_reg);
+            if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
+            {
+                fprintf (num_com, "%d %d\n", POPR, code_of_reg);
+                cmd_array[j] = POPR;
+                j++;
+                cmd_array[j] = code_of_reg;
+                continue;
+            }
+            else
+            {
+                printf ("Error of input\n");
+                break;
+            }
         }
 
         else if (strcmp (commands[i].com, "add") == 0)
