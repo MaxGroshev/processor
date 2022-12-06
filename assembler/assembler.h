@@ -7,7 +7,7 @@
 struct token // token_t
 {
     char* com;
-    char* val;
+    int   val;
 };
 
 //=================================================================================================================================
@@ -23,5 +23,5 @@ enum code_of_com
 
 //==================================================================================================================================
 
-struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE* word_com);
-void   translate_com (struct token* commands, const size_t count_of_com, FILE* word_com);
+char** read_word_com (size_t* count_of_com, size_t* count_of_token, FILE* word_com);
+void   translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, FILE* word_com);

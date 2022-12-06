@@ -1,6 +1,6 @@
 #include "assembler.h"
 
-struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE* word_com)
+char** read_word_com (size_t* count_of_com, size_t* count_of_token, FILE* word_com)
 {
 
     int first_pos = ftell (word_com);
@@ -12,17 +12,17 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE*
     fread (test_text, sizeof (char), size_of_file, word_com);
 
     size_t token_mem = 10;
-    struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
+    char** commands = (char**) calloc (token_mem, sizeof (char*));
 
-    char* cur_tok = strtok (test_text, " \n");
-    commands[0].com = cur_tok; //Not sure that can delete it
+    char* cur_tok = strtok (test_text, " \n \0");
+    commands[0] = cur_tok; //Not sure that can delete it
     for (int i = 1; cur_tok != NULL; i++)
     {
         if (token_mem <= i)
         {
             token_mem += 10;
-            struct token* commands_resize = commands;
-            commands_resize = (struct token*) realloc (commands, token_mem * sizeof (struct token));
+            char** commands_resize = commands;
+            commands_resize = (char**) realloc (commands, token_mem * sizeof (char*));
 
             if (commands_resize != NULL)
             {
@@ -35,17 +35,11 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE*
             }
         }
 
-        if (strcmp (commands[i - 1].com, "push") == 0)
-        {
-            cur_tok = strtok (NULL, " \n");
-            commands[i - 1].val = cur_tok;
-            (*count_of_token)++;
-        }
 
-        cur_tok = strtok (NULL, " \n"); // mistake is here reading of NULL
+        cur_tok = strtok (NULL, " \n \0"); // mistake is here reading of NULL
         if (cur_tok != NULL)
         {
-            commands[i].com = cur_tok;
+            commands[i] = cur_tok;
         }
 
         else
@@ -64,13 +58,14 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE*
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
-/*void translate_com (struct token* commands, const size_t count_of_com, FILE* word_com)
+/*void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, FILE* word_com)
 {
     FILE* num_com     = fopen ("../test.code","w");
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
 
-    int cmd_array[count_of_com];
-    for (int i = 0; i < count_of_com; i++)
+    int cmd_array[count_of_token];
+    int j = 0;
+    for (int i = 0; i < count_of_com && j < 10; i++, j++)
     {
         int value = 0;
 
@@ -80,36 +75,38 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE*
             //printf("%s\n", commands[i].com);
             fprintf (num_com, "%d %d\n", PUSH, value);
 
-            cmd_array[i++] = PUSH;
-            cmd_array[i++] = value;
+            cmd_array[j] = PUSH;
+            j++;
+            cmd_array[j] = value;
             continue;
         }
 
         else if (strcmp (commands[i].com, "add") == 0)
         {
+            printf("%s\n", commands[i].com);
             fprintf (num_com, "%d\n", ADD);
-            cmd_array[i] = ADD;
+            cmd_array[j] = ADD;
             continue;
         }
 
         else if (strcmp (commands[i].com, "mul") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
-            cmd_array[i] = MUL;
+            cmd_array[j] = MUL;
             continue;
         }
 
         else if (strcmp (commands[i].com, "out") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
-            cmd_array[i] = OUT;
+            cmd_array[j] = OUT;
             continue;
         }
 
         else if (strcmp (commands[i].com, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
-            cmd_array[i] = HLT;
+            cmd_array[j] = HLT;
             continue;
         }
 
@@ -119,6 +116,6 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, FILE*
         }
     }
     fprintf(num_com, "------End of list of commands------\n");
-    fwrite (cmd_array, sizeof (int), count_of_com , num_com_bin);
+    fwrite (cmd_array, sizeof (int), count_of_token , num_com_bin);
     fclose (num_com);
 }*/
