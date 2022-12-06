@@ -7,7 +7,7 @@ int main()
     stack_init (&box);
 
     int elem = 0;
-    processor (&box, &cpu, elem);
+    dist_task (&box, &cpu, elem);
 
     stack_dump (&box, __FILE__, __FUNCTION__, __LINE__, 1);
     stack_delete (&box);

@@ -23,3 +23,44 @@
   2 [125269879] - Current cell
   3 [125269879]
 -----End of the current print-----
+  0 [10]
+  1 [12]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----
+  0 [10]
+  1 [12]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----
+  0 [10]
+  1 [25]
+  2 [125269879] - Current cell
+  0 [10]
+  1 [25]
+  2 [125269879] - Current cell
+  0 [10]
+  1 [12]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----
+  0 [10]
+  1 [12]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----
+  0 [10]
+  1 [25]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----
+  0 [10]
+  1 [25]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----
+  0 [10]
+  1 [12]
+  2 [125269879] - Current cell
+  3 [125269879]
+-----End of the current print-----

@@ -1,9 +1,9 @@
 #include "CPU.h"
 
-void processor (stack_t* box, processor* cpu, int elem)
+void dist_task (stack_t* box, processor* cpu, int elem)
 {
     int* code_of_com = read_num_com();
-    int  num_of_reg = 0; // cod of register
+    int  code_of_reg = 0; // cod of register
     for (int i = 0; code_of_com[i] != HLT; i++)
     {
         switch (code_of_com[i])
@@ -14,13 +14,13 @@ void processor (stack_t* box, processor* cpu, int elem)
                 stack_push (box, elem);
                 break;
 
-            case PUSHR
+            case PUSHR:
                 i++;
                 code_of_reg = code_of_com[i];
-                stack_push (box, cpu->registers[code_of_reg];
+                stack_push (box, cpu->registers[code_of_reg]);
                 break;
 
-            case POPR
+            case POPR:
                 i++;
                 cpu->registers[code_of_com[i]] = stack_pop (box);
                 break;
@@ -82,6 +82,7 @@ int* read_num_com ()
         code_of_com[i] = buffer;
     }
     fclose (num_com_bin);
+
     return code_of_com;
 }
 

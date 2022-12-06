@@ -52,7 +52,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char*
             (*count_of_token)++;
         }
 
-        else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i].com, "popr") == 0))
+        else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
         {
             cur_tok = strtok (NULL, " \r\n");
 
@@ -97,7 +97,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         int code_of_reg = -1;
         if (strcmp (commands[i].com, "push") == 0)
         {
-            if (sscanf (commands[i].val, "%d", &value) == 1);
+            if (sscanf (commands[i].val, "%d", &value) == 1)
             {
                 fprintf (num_com, "%d %d\n", PUSH, value);
 
@@ -107,21 +107,21 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 continue;
             }
 
-            // else
-            // {
-            //     printf ("Error of input\n");
-            //     break;
-            // }
+            else
+            {
+                printf ("Error of input\n");
+                break;
+            }
         }
 
         else if (strcmp (commands[i].com, "pushr") == 0)
         {
             if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
             {
-                fprintf (num_com, "%d %d\n", PUSHR, code_of_reg);
+                fprintf (num_com, "%d %d\n", PUSHR, commands[i].code_of_reg);
                 cmd_array[j] = PUSHR;
                 j++;
-                cmd_array[j] = code_of_reg;
+                cmd_array[j] = commands[i].code_of_reg;
                 continue;
             }
             else
@@ -133,13 +133,12 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
         else if (strcmp (commands[i].com, "popr") == 0)
         {
-            printf ("%d\n", code_of_reg);
             if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
             {
-                fprintf (num_com, "%d %d\n", POPR, code_of_reg);
+                fprintf (num_com, "%d %d\n", POPR, commands[i].code_of_reg);
                 cmd_array[j] = POPR;
                 j++;
-                cmd_array[j] = code_of_reg;
+                cmd_array[j] = commands[i].code_of_reg;
                 continue;
             }
             else
