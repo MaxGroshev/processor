@@ -106,12 +106,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_array[j] = value;
                 continue;
             }
-
-            else
-            {
-                printf ("Error of input\n");
-                break;
-            }
+            else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "pushr") == 0)
@@ -124,11 +119,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_array[j] = commands[i].code_of_reg;
                 continue;
             }
-            else
-            {
-                printf ("Error of input\n");
-                break;
-            }
+            else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "popr") == 0)
@@ -141,11 +132,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_array[j] = commands[i].code_of_reg;
                 continue;
             }
-            else
-            {
-                printf ("Error of input\n");
-                break;
-            }
+            else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "add") == 0)
@@ -180,6 +167,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         {
             fprintf (num_com, "\n");
         }
+        else INPUT_ERR
     }
     fprintf(num_com, "------End of list of commands------\n");
     fwrite (cmd_array, sizeof (int), count_of_token , num_com_bin);
