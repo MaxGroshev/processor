@@ -19,7 +19,7 @@ char* read_com_asm (FILE* word_com)
     return test_text;
 }
 
-struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char* test_text)
+struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* test_text)
 {
 
     size_t token_mem = 10;
@@ -52,7 +52,23 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char*
             (*count_of_token)++;
         }
 
-        else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
+        if (strcmp (commands[i - 1].com, "jmp") == 0)
+        {
+            cur_tok = strtok (NULL, " \r\n");
+            commands[i - 1].label = cur_tok;
+            (*count_of_token)++;
+        }
+
+        if (strcmp (commands[i - 1].com, "jmp") != 0 && strchr (cur_tok, ':') != NULL)
+        {
+            int num_of_label = 0;
+            int res = sscanf (cur_tok, ":%d", &num_of_label);
+            labels[num_of_label] = *count_of_com;
+            printf ("%ld\n", *count_of_com + 1);
+            (*count_of_com)--; // Make better throught continue
+        }
+
+        if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
         {
             cur_tok = strtok (NULL, " \r\n");
 
@@ -79,7 +95,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char*
     }
     (*count_of_com)++;
     (*count_of_token)++;
-    printf ("%ld\n", *count_of_token);
+    printf ("%ld %ld\n", *count_of_token, *count_of_com);
     return commands;
 }
 

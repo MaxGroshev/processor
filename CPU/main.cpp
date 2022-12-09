@@ -4,7 +4,6 @@ int main()
 {
     struct stack_t box   = {};
     struct processor cpu = {0, 0, 0, 0};
-   // cpu.registers[3] = {0, 0, 0, 0};
     stack_init (&box);
 
     int elem = 0;

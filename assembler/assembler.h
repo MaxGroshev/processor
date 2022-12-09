@@ -8,10 +8,12 @@
 
 struct token // token_t
 {
-    char* com;
-    char* val;
-    int code_of_reg;
+    char*  com;
+    char*  val;
+    int    code_of_reg;
+    char*    label;
 };
+
 
 //=================================================================================================================================
 
@@ -38,5 +40,5 @@ enum registers
 //==================================================================================================================================
 
 char* read_com_asm          (FILE* word_com);
-struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char* test_text);
+struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* test_text);
 void translate_com          (struct token* commands, const size_t count_of_com, const size_t count_of_token, char* test_text);
