@@ -3,7 +3,7 @@
 void dist_task (stack_t* box, processor* cpu, int elem)
 {
     int* code_of_com = read_num_com();
-    int  code_of_reg = 0; // cod of register
+    int  code_of_reg = 0; // code of register
     for (int i = 0; code_of_com[i] != HLT; i++)
     {
         switch (code_of_com[i])

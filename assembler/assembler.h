@@ -18,12 +18,13 @@ struct token // token_t
 enum code_of_com
 {
     PUSH  = 1,
-    PUSHR = 11,
-    POPR  = 12,
     ADD   = 2,
     MUL   = 3,
     OUT   = 4,
     HLT   = 0,
+    PUSHR = 11,
+    POPR  = 12,
+    JMP   = 20,
 };
 
 enum registers

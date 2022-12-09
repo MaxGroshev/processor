@@ -79,6 +79,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, char*
     }
     (*count_of_com)++;
     (*count_of_token)++;
+    printf ("%ld\n", *count_of_token);
     return commands;
 }
 
