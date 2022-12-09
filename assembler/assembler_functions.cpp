@@ -52,23 +52,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
         }
 
-        if (strcmp (commands[i - 1].com, "jmp") == 0)
-        {
-            cur_tok = strtok (NULL, " \r\n");
-            commands[i - 1].label = cur_tok;
-            (*count_of_token)++;
-        }
-
-        if (strcmp (commands[i - 1].com, "jmp") != 0 && strchr (cur_tok, ':') != NULL)
-        {
-            int num_of_label = 0;
-            int res = sscanf (cur_tok, ":%d", &num_of_label);
-            labels[num_of_label] = *count_of_com;
-            printf ("%ld\n", *count_of_com + 1);
-            (*count_of_com)--; // Make better throught continue
-        }
-
-        if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
+        else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
         {
             cur_tok = strtok (NULL, " \r\n");
 
@@ -80,28 +64,41 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
         }
 
+        else if (strcmp (commands[i - 1].com, "jmp") == 0)
+        {
+            cur_tok = strtok (NULL, " \r\n");
+            commands[i - 1].label = cur_tok;
+            (*count_of_token)++;
+        }
+
+        if (strcmp (commands[i - 1].com, "jmp") != 0 && strchr (cur_tok, ':') != NULL)
+        {
+            int num_of_label = 0;
+            int res = sscanf (cur_tok, ":%d", &num_of_label);
+            labels[num_of_label] = *count_of_com;
+        }
+
         cur_tok = strtok (NULL, " \r\n");
         if (cur_tok != NULL)
         {
             commands[i].com = cur_tok;
+            (*count_of_com)++;
+            (*count_of_token)++;
         }
 
         else
         {
             break;
         }
-        (*count_of_com)++;
-        (*count_of_token)++;
     }
     (*count_of_com)++;
     (*count_of_token)++;
-    printf ("%ld %ld\n", *count_of_token, *count_of_com);
     return commands;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
-void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, char* test_text)
+void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* test_text)
 {
     FILE* num_com     = fopen ("../test.code","w");
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
@@ -121,7 +118,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_array[j] = PUSH;
                 j++;
                 cmd_array[j] = value;
-                continue;
             }
             else INPUT_ERR
         }
@@ -134,7 +130,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_array[j] = PUSHR;
                 j++;
                 cmd_array[j] = commands[i].code_of_reg;
-                continue;
             }
             else INPUT_ERR
         }
@@ -147,7 +142,19 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_array[j] = POPR;
                 j++;
                 cmd_array[j] = commands[i].code_of_reg;
-                continue;
+            }
+            else INPUT_ERR
+        }
+
+        else if (strcmp (commands[i].com, "jmp") == 0)
+        {
+            int num_of_label = 0;
+            if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+            {
+                fprintf (num_com, "%d %d\n", JMP, labels[num_of_label]);
+                cmd_array[j] = JMP;
+                j++;
+                cmd_array[j] = labels[num_of_label];
             }
             else INPUT_ERR
         }
@@ -156,38 +163,46 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         {
             fprintf (num_com, "%d\n", ADD);
             cmd_array[j] = ADD;
-            continue;
         }
 
         else if (strcmp (commands[i].com, "mul") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
             cmd_array[j] = MUL;
-            continue;
         }
 
         else if (strcmp (commands[i].com, "out") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
             cmd_array[j] = OUT;
-            continue;
         }
 
         else if (strcmp (commands[i].com, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
             cmd_array[j] = HLT;
-            continue;
         }
 
         else if (strcmp (commands[i].com, "\n") == 0)
         {
             fprintf (num_com, "\n");
         }
+
+        else if (strchr (commands[i].com, ':') != NULL)
+        {
+            j--;
+            continue;
+        }
         else INPUT_ERR
     }
+//     for (int i = 0; i < j; i++)
+//     {
+//         printf("%d\n", cmd_array[i]);
+//
+//     }
+
     fprintf(num_com, "------End of list of commands------\n");
-    fwrite (cmd_array, sizeof (int), count_of_token , num_com_bin);
+    fwrite (cmd_array, sizeof (int), j , num_com_bin); // to improve j
     fclose (num_com);
     fclose (num_com_bin);
 }

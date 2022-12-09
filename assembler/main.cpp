@@ -9,19 +9,8 @@ int main ()
 
     char* test_text = read_com_asm (word_com);
     token* commands = read_word_com (&count_of_com, &count_of_token, labels, test_text);
-    //translate_com (commands, count_of_com, count_of_token, test_text);
-    for (int i = 0; i < 10; i++)
-    {
-        printf ("%d ", labels[i]);
-    }
+    translate_com (commands, count_of_com, count_of_token, labels, test_text);
 
-    for (int i = 0; i < count_of_com; i++)
-    {
-        printf ("%s\n", commands[i].com);
-    }
-
-
-    printf ("\n");
     fclose (word_com);
     free   (commands);
     free   (test_text);
