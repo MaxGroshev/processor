@@ -38,6 +38,12 @@ void dist_task (stack_t* box, processor* cpu, int elem)
                 printf ("%d\n", elem);
                 break;
 
+            case JMP:
+                i++;
+                i = code_of_com[i];
+                i--;
+                break;
+
             case HLT:
                 break;
         }

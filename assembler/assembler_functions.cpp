@@ -93,6 +93,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
     }
     (*count_of_com)++;
     (*count_of_token)++;
+    printf ("%ld\n", *count_of_token);
     return commands;
 }
 
@@ -195,11 +196,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         }
         else INPUT_ERR
     }
-//     for (int i = 0; i < j; i++)
-//     {
-//         printf("%d\n", cmd_array[i]);
-//
-//     }
 
     fprintf(num_com, "------End of list of commands------\n");
     fwrite (cmd_array, sizeof (int), j , num_com_bin); // to improve j

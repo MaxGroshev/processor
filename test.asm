@@ -3,12 +3,13 @@ push 5
 push 20
 add
 popr ax
-push 12
+out
 jmp :4
+push 12
 push 5
-:4
 pushr ax
 mul
 out
+:4
 hlt
 
