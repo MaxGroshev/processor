@@ -16,6 +16,7 @@ enum code_of_com
     MUL   = 3,
     OUT   = 4,
     DIV   = 5,
+    SQRT  = 6,
     PUSHR = 11,
     POPR  = 12,
     JMP   = 20,

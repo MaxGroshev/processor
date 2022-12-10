@@ -37,6 +37,12 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
                 stack_div (box, elem);
                 break;
 
+            case SQRT:
+                elem = stack_pop (box);
+                elem = sqrt (elem);
+                stack_push (box, elem);
+                break;
+
             case OUT:
                 elem = stack_pop (box);
                 printf ("%d\n", elem);
@@ -131,7 +137,6 @@ void stack_mul (stack_t* box, int elem)
 void stack_div (stack_t* box, int elem)
 {
     elem =  stack_pop (box);
-    //printf ("%d\n", elem);
     elem /= stack_pop (box);
     stack_push (box, elem);
     STACK_CHECK

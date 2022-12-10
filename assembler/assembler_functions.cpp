@@ -204,6 +204,12 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_array[j] = OUT;
         }
 
+        else if (strcmp (commands[i].com, "sqrt") == 0)
+        {
+            fprintf (num_com, "%d\n", SQRT);
+            cmd_array[j] = SQRT;
+        }
+
         else if (strcmp (commands[i].com, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
