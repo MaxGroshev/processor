@@ -1,5 +1,3 @@
-include ../assembler/Makefile
-
 CC=gcc
 
 CFLAGS=-g

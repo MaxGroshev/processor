@@ -73,7 +73,6 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
         if ((strchr (cur_tok, ':') != NULL) && (strcmp (commands[i - 1].com, "jmp") != 0) && (strcmp (commands[i - 1].com, "call") != 0))
         {
-            printf ("Buy\n");
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);
             labels[num_of_label] = *count_of_token;
@@ -191,6 +190,12 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         {
             fprintf (num_com, "%d\n", MUL);
             cmd_array[j] = MUL;
+        }
+
+        else if (strcmp (commands[i].com, "div") == 0)
+        {
+            fprintf (num_com, "%d\n", DIV);
+            cmd_array[j] = DIV;
         }
 
         else if (strcmp (commands[i].com, "out") == 0)

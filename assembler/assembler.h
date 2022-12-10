@@ -11,7 +11,7 @@ struct token // token_t
     char*  com;
     char*  val;
     int    code_of_reg;
-    char*    label;
+    char*  label;
 };
 
 
@@ -19,11 +19,12 @@ struct token // token_t
 
 enum code_of_com
 {
+    HLT   = 0,
     PUSH  = 1,
     ADD   = 2,
     MUL   = 3,
     OUT   = 4,
-    HLT   = 0,
+    DIV   = 5,
     PUSHR = 11,
     POPR  = 12,
     JMP   = 20,

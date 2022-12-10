@@ -14,6 +14,7 @@ push 5
 push 12
 pushr ax
 mul
+div
 out
 hlt
 
