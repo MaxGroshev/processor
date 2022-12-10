@@ -27,6 +27,8 @@ enum code_of_com
     PUSHR = 11,
     POPR  = 12,
     JMP   = 20,
+    CALL  = 30,
+    RET   = 31,
 };
 
 enum registers
