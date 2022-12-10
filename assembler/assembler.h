@@ -30,7 +30,13 @@ enum code_of_com
     SQRT  = 7,
     PUSHR = 11,
     POPR  = 12,
-    JMP   = 20,
+    JMP   = 20,  //jmp without condition
+    JB    = 21,  // <
+    JBE   = 22,  // <=
+    JA    = 23,  // >
+    JAE   = 24,  // >=
+    JE    = 25,  // ==
+    JNE   = 26,  // !=
     CALL  = 30,
     RET   = 31,
 };

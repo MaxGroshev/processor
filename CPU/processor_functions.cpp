@@ -57,6 +57,60 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
                 i--;
                 break;
 
+            case JB:
+                if (box->data[box->counter - 1] < box->data[box->counter - 2])
+                {
+                    i++;
+                    i = code_of_com[i];
+                    i--;
+                }
+                break;
+
+            case JBE:
+                if (box->data[box->counter - 1] <= box->data[box->counter - 2])
+                {
+                    i++;
+                    i = code_of_com[i];
+                    i--;
+                }
+                break;
+
+            case JA:
+                if (box->data[box->counter - 1] > box->data[box->counter - 2])
+                {
+                    i++;
+                    i = code_of_com[i];
+                    i--;
+                }
+                break;
+
+            case JAE:
+                if (box->data[box->counter - 1] >= box->data[box->counter - 2])
+                {
+                    i++;
+                    i = code_of_com[i];
+                    i--;
+                }
+                break;
+
+            case JE:
+                if (box->data[box->counter - 1] == box->data[box->counter - 2])
+                {
+                    i++;
+                    i = code_of_com[i];
+                    i--;
+                }
+                break;
+
+            case JNE:
+                if (box->data[box->counter - 1] != box->data[box->counter - 2])
+                {
+                    i++;
+                    i = code_of_com[i];
+                    i--;
+                }
+                break;
+
             case CALL:
                 stack_push (func_ret, i + 2);
                 i++;
@@ -162,3 +216,4 @@ int find_sqrt (stack_t* box, int elem, int i)
     }
     return i;
 }
+

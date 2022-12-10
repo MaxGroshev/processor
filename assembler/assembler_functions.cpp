@@ -64,14 +64,14 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
         }
 
-        else if ((strcmp (commands[i - 1].com, "jmp") == 0) || (strcmp (commands[i - 1].com, "call") == 0))
+        else if ((strchr (commands[i - 1].com, 'j') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
         {
             cur_tok = strtok (NULL, " \r\n");
             commands[i - 1].label = cur_tok;
             (*count_of_token)++;
         }
 
-        if ((strchr (cur_tok, ':') != NULL) && (strcmp (commands[i - 1].com, "jmp") != 0) && (strcmp (commands[i - 1].com, "call") != 0))
+        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
         {
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);
@@ -154,17 +154,98 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR
         }
 
-        else if (strcmp (commands[i].com, "jmp") == 0)
+        else if (strchr (commands[i].com, 'j') != NULL)
         {
-            int num_of_label = 0;
-            if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+            if (strcmp (commands[i].com, "jmp") == 0)
             {
-                fprintf (num_com, "%d %d\n", JMP, labels[num_of_label]);
-                cmd_array[j] = JMP;
-                j++;
-                cmd_array[j] = labels[num_of_label];
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JMP, labels[num_of_label]);
+                    cmd_array[j] = JMP;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
             }
-            else INPUT_ERR
+
+            else if (strcmp (commands[i].com, "jb") == 0)
+            {
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JB, labels[num_of_label]);
+                    cmd_array[j] = JB;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
+            }
+
+            else if (strcmp (commands[i].com, "jbe") == 0)
+            {
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JBE, labels[num_of_label]);
+                    cmd_array[j] = JBE;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
+            }
+
+            else if (strcmp (commands[i].com, "ja") == 0)
+            {
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JA, labels[num_of_label]);
+                    cmd_array[j] = JA;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
+            }
+
+            else if (strcmp (commands[i].com, "jae") == 0)
+            {
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JAE, labels[num_of_label]);
+                    cmd_array[j] = JAE;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
+            }
+
+            else if (strcmp (commands[i].com, "je") == 0)
+            {
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JE, labels[num_of_label]);
+                    cmd_array[j] = JE;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
+            }
+
+            else if (strcmp (commands[i].com, "jne") == 0)
+            {
+                int num_of_label = 0;
+                if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
+                {
+                    fprintf (num_com, "%d %d\n", JNE, labels[num_of_label]);
+                    cmd_array[j] = JNE;
+                    j++;
+                    cmd_array[j] = labels[num_of_label];
+                }
+                else INPUT_ERR
+            }
         }
 
         else if (strcmp (commands[i].com, "call") == 0)
