@@ -1,6 +1,6 @@
 #include "CPU.h"
 
-void dist_task (stack_t* box, processor* cpu, int elem)
+void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
 {
     int* code_of_com = read_num_com();
     int  code_of_reg = 0; // code of register
@@ -41,6 +41,18 @@ void dist_task (stack_t* box, processor* cpu, int elem)
             case JMP:
                 i++;
                 i = code_of_com[i];
+                i--;
+                break;
+
+            case CALL:
+                stack_push (func_ret, i + 2);
+                i++;
+                i = code_of_com[i];
+                i--;
+                break;
+
+            case RET:
+                i = stack_pop (func_ret);
                 i--;
                 break;
 

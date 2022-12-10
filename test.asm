@@ -1,19 +1,18 @@
+jmp :2
+:1
 push 10
+ret
+:2
 push 5
 push 20
 add
-:1
 popr ax
-ret
 call :1
 out
-jmp :4
-:4
 push 12
 push 5
-jmp :5
+push 12
 pushr ax
-:5
 mul
 out
 hlt

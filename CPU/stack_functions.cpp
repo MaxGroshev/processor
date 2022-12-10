@@ -1,9 +1,9 @@
 #include "CPU.h"
 
-void stack_init (stack_t* box)
+void stack_init (stack_t* box, stack_t* func_ret)
 {
-    box->data = (type_of_elem*) calloc (box->capacity, sizeof (type_of_elem));
-
+    box->data      = (type_of_elem*) calloc (box->capacity, sizeof (type_of_elem));
+    func_ret->data = (type_of_elem*) calloc (10, sizeof (type_of_elem)); //size of ret value is not more then 10
     STACK_CHECK
 }
 
@@ -51,9 +51,10 @@ int stack_pop (stack_t* box)
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-void stack_delete (stack_t* box)
+void stack_delete (stack_t* box, stack_t* func_ret)
 {
     free (box->data);
+    free (func_ret->data);
 }
 
 
