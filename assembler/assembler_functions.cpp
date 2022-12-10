@@ -75,7 +75,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
         {
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);
-            labels[num_of_label] = *count_of_com;
+            labels[num_of_label] = *count_of_token;
         }
 
         cur_tok = strtok (NULL, " \r\n");
