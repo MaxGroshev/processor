@@ -201,3 +201,53 @@ ERROR: Request to cell thar does not belong to stack
   2 [125269879]
   3 [125269879]
 -----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----

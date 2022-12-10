@@ -1,9 +1,13 @@
-push 1
-popr ax
-push 2
+in
+in
+in
+popr cx
 popr bx
-push -35
+popr ax
+pushr ax
+pushr cx
 push -4
+mul
 mul
 pushr bx
 pushr bx

@@ -124,6 +124,12 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR
         }
 
+        else if (strcmp (commands[i].com, "in") == 0)
+        {
+            fprintf (num_com, "%d\n", IN);
+            cmd_array[j] = IN;
+        }
+
         else if (strcmp (commands[i].com, "pushr") == 0)
         {
             if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)

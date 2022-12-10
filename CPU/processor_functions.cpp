@@ -14,6 +14,11 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
                 stack_push (box, elem);
                 break;
 
+            case IN:
+                scanf ("%d", &elem);
+                stack_push (box, elem);
+                break;
+
             case PUSHR:
                 i++;
                 code_of_reg = code_of_com[i];
@@ -38,9 +43,7 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
                 break;
 
             case SQRT:
-                elem = stack_pop (box);
-                elem = sqrt (elem);
-                stack_push (box, elem);
+                i = find_sqrt (box, elem, i);
                 break;
 
             case OUT:
@@ -140,4 +143,22 @@ void stack_div (stack_t* box, int elem)
     elem /= stack_pop (box);
     stack_push (box, elem);
     STACK_CHECK
+}
+
+int find_sqrt (stack_t* box, int elem, int i)
+{
+    elem = stack_pop (box);
+    if (elem > 0)
+    {
+        elem = sqrt (elem);
+        stack_push (box, elem);
+    }
+
+    else
+    {
+        printf ("%d - this number less then zero. It is impossible to find sqrt\n", elem);
+        printf ("Please repeat input\n");
+        i = -1;
+    }
+    return i;
 }

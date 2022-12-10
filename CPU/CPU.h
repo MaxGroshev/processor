@@ -12,11 +12,12 @@ enum code_of_com
 {
     HLT   = 0,
     PUSH  = 1,
-    ADD   = 2,
-    MUL   = 3,
-    OUT   = 4,
-    DIV   = 5,
-    SQRT  = 6,
+    IN    = 2,
+    ADD   = 3,
+    MUL   = 4,
+    OUT   = 5,
+    DIV   = 6,
+    SQRT  = 7,
     PUSHR = 11,
     POPR  = 12,
     JMP   = 20,
@@ -31,4 +32,5 @@ int* read_num_com ();
 void stack_add    (stack_t* box, int elem);
 void stack_mul    (stack_t* box, int elem);
 void stack_div    (stack_t* box, int elem);
+int  find_sqrt    (stack_t* box, int elem, int i);
 
