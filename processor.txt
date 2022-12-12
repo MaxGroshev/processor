@@ -331,3 +331,37 @@ ERROR: Request to cell thar does not belong to stack
   0 [13]
   1 [13]
 -----End of the current print-----
+  0 [13]
+  1 [13]
+-----End of the current print-----
+  0 [13]
+  1 [13]
+-----End of the current print-----
+  0 [-71]
+  1 [125269879] - Current cell
+  2 [125269879]
+  3 [125269879]
+  4 [125269879]
+-----End of the current print-----
+  0 [0]
+  1 [125269879] - Current cell
+  2 [125269879]
+  3 [125269879]
+  4 [125269879]
+-----End of the current print-----
+  0 [616]
+  1 [125269879] - Current cell
+  2 [125269879]
+  3 [125269879]
+  4 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----
+  0 [125269879] - Current cell
+  1 [125269879]
+  2 [125269879]
+  3 [125269879]
+-----End of the current print-----

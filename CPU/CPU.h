@@ -38,5 +38,4 @@ int* read_num_com ();
 void stack_add    (stack_t* box, int elem);
 void stack_mul    (stack_t* box, int elem);
 void stack_div    (stack_t* box, int elem);
-int  find_sqrt    (stack_t* box, int elem, int i);
-int  compare_elem (stack_t* box, int code_of_com, int i);
+void find_sqrt    (stack_t* box, int elem, int i);

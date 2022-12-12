@@ -156,9 +156,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
         else if (strchr (commands[i].com, 'j') != NULL)
         {
+            int num_of_label = 0;
             if (strcmp (commands[i].com, "jmp") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JMP, labels[num_of_label]);
@@ -171,7 +171,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
             else if (strcmp (commands[i].com, "jb") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JB, labels[num_of_label]);
@@ -184,7 +183,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
             else if (strcmp (commands[i].com, "jbe") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JBE, labels[num_of_label]);
@@ -197,7 +195,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
             else if (strcmp (commands[i].com, "ja") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JA, labels[num_of_label]);
@@ -210,7 +207,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
             else if (strcmp (commands[i].com, "jae") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JAE, labels[num_of_label]);
@@ -223,7 +219,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
             else if (strcmp (commands[i].com, "je") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JE, labels[num_of_label]);
@@ -236,7 +231,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
             else if (strcmp (commands[i].com, "jne") == 0)
             {
-                int num_of_label = 0;
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JNE, labels[num_of_label]);
