@@ -1,6 +1,6 @@
 #include "CPU.h"
 
-void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
+void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
 {
     int* code_of_com = read_num_com();
     int  code_of_reg = 0; // code of register
@@ -15,7 +15,7 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
                 break;
 
             case IN:
-                scanf ("%d", &elem);
+                scanf ("%lg", &elem);
                 stack_push (box, elem);
                 break;
 
@@ -48,7 +48,7 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
 
             case OUT:
                 elem = stack_pop (box);
-                printf ("%d\n", elem);
+                printf ("%lg\n", elem);
                 break;
 
             case JMP:
@@ -173,7 +173,7 @@ int* read_num_com ()
 
 //-----------------------------------------------------------------------------------------------------------
 
-void stack_add (stack_t* box, int elem)
+void stack_add (stack_t* box, double elem)
 {
     elem = stack_pop  (box);
     elem += stack_pop (box);
@@ -183,7 +183,7 @@ void stack_add (stack_t* box, int elem)
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-void stack_mul (stack_t* box, int elem)
+void stack_mul (stack_t* box, double elem)
 {
     elem =  stack_pop (box);
     elem *= stack_pop (box);
@@ -191,7 +191,7 @@ void stack_mul (stack_t* box, int elem)
     STACK_CHECK
 }
 
-void stack_div (stack_t* box, int elem)
+void stack_div (stack_t* box, double elem)
 {
     elem =  stack_pop (box);
     elem /= stack_pop (box);
@@ -199,7 +199,7 @@ void stack_div (stack_t* box, int elem)
     STACK_CHECK
 }
 
-void find_sqrt (stack_t* box, int elem)
+void find_sqrt (stack_t* box, double elem)
 {
     elem = stack_pop (box);
     elem = sqrt      (elem);

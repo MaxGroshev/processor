@@ -9,7 +9,7 @@ void stack_init (stack_t* box, stack_t* func_ret)
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
-void stack_push (stack_t* box, type_of_elem element)
+void stack_push (stack_t* box, double element)
 {
     STACK_CHECK
 
@@ -27,7 +27,7 @@ void stack_push (stack_t* box, type_of_elem element)
         }
         STACK_CHECK
     }
-    box->data[box->counter++] = element;
+    box->data[box->counter++] = element * 100;
     if (box->capacity < box->counter)
     {
         box->capacity++;
@@ -38,11 +38,12 @@ void stack_push (stack_t* box, type_of_elem element)
 
 //----------------------------------------------------------------------------------------------------------------------------------------------
 
-int stack_pop (stack_t* box)
+double stack_pop (stack_t* box)
 {
 
     box->counter--;
-    type_of_elem element = box->data[box->counter];
+    double element = box->data[box->counter];
+    element = element / 100;
     box->data[box->counter] = 0X7777777;
     STACK_CHECK
 
