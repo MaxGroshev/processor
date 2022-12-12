@@ -43,7 +43,7 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem)
                 break;
 
             case SQRT:
-                find_sqrt (box, elem, i);
+                find_sqrt (box, elem);
                 break;
 
             case OUT:
@@ -199,7 +199,7 @@ void stack_div (stack_t* box, int elem)
     STACK_CHECK
 }
 
-void find_sqrt (stack_t* box, int elem, int i)
+void find_sqrt (stack_t* box, int elem)
 {
     elem = stack_pop (box);
     elem = sqrt      (elem);

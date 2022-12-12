@@ -2,9 +2,15 @@
 
 int main()
 {
-    struct stack_t box      = {}; //stack for elements
+    struct processor cpu = {};
+    const size_t count_of_reg = 4;
+    for (int i = 0; i < count_of_reg; i++)
+    {
+        cpu.registers[i] = {0};
+    }
+
+    stack_t box      = {}; //stack for elements
     struct stack_t func_ret = {}; //stack for returning points of functions
-    struct processor cpu = {0, 0, 0, 0};
     stack_init (&box, &func_ret);
 
     int elem = 0;

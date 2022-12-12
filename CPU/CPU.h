@@ -2,8 +2,8 @@
 
 struct processor
 {
+    int    registers[4]; //four registers ax, bx, cx, dx
     //struct stack_t box;
-    int registers[4]; //four registers ax, bx, cx, dx
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -33,9 +33,9 @@ enum code_of_com
 
 //--------------------------------------------------------------------------------------
 
-void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, int elem);
+void dist_task    (stack_t* box, stack_t* func_ret, processor* cpu, int elem);
 int* read_num_com ();
 void stack_add    (stack_t* box, int elem);
 void stack_mul    (stack_t* box, int elem);
 void stack_div    (stack_t* box, int elem);
-void find_sqrt    (stack_t* box, int elem, int i);
+void find_sqrt    (stack_t* box, int elem);
