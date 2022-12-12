@@ -2,8 +2,9 @@
 
 struct processor
 {
-    int    registers[4]; //four registers ax, bx, cx, dx
-    //struct stack_t box;
+    int    registers[4];     //four registers ax, bx, cx, dx
+    struct stack_t box;      // stack with data
+    struct stack_t func_ret; //stack with addreses of returning
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ enum code_of_com
     SQRT  = 7,
     PUSHR = 11,
     POPR  = 12,
-    JMP   = 20,  //jmp without condition
+    JMP   = 20,  // jmp without condition
     JB    = 21,  // <
     JBE   = 22,  // <=
     JA    = 23,  // >
