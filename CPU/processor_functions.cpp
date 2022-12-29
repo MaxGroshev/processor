@@ -128,7 +128,7 @@ void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
         }
     }
     free (code_of_com);
-}
+} // rename func to run_task
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ int* read_num_com ()
             {
                 printf ("Error of reallocating\n");
             }
-        }
+        } //remove realloc, make fread, use fstat
 
         int buffer = 0;
         fread (&buffer, sizeof (int), 1, num_com_bin);
@@ -170,8 +170,7 @@ int* read_num_com ()
 
     return code_of_com;
 }
-
-//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void stack_add (stack_t* box, double elem)
 {
@@ -180,8 +179,6 @@ void stack_add (stack_t* box, double elem)
     stack_push (box, elem);
     STACK_CHECK
 }
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------
 
 void stack_mul (stack_t* box, double elem)
 {

@@ -1,45 +1,40 @@
 in
-in
-in
-popr cx
-popr bx
+popr dx
+pushr dx
+
+:1
 popr ax
 pushr ax
-pushr cx
-push -4
-mul
-mul
-pushr bx
-pushr bx
-mul
+push -1
 add
-sqrt
+pushr dx
+mul
 popr dx
-push 2
 pushr ax
-mul
-pushr dx
-jmp :1
-:2
-push 2
+push -1
+add
+push 1
 pushr ax
-mul
+push -1
+add
+
+ja :1
 pushr dx
-push -1
-mul
-pushr bx
-push -1
-mul
-add
-div
 out
-ret
-:1
-pushr bx
-push -1
-mul
-add
-div
-out
-call :2
 hlt
+
+
+
+
+
+
+; int fact (int n)
+; {
+;     if (n  == 1)
+;     {
+;         return 1;
+;     }
+;
+;     int res = fact (n - 1) * n;
+;     return res;
+; }

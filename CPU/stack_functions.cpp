@@ -21,6 +21,7 @@ void stack_push (stack_t* box, double element)
         {
             box->data = stack_resize;
         }
+
         else
         {
             printf ("It is impossible to widen size of stack\n");

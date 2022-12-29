@@ -2,10 +2,11 @@
 
 int main ()
 {
-    FILE* word_com    = fopen ("../test.asm", "r");
-    size_t count_of_com =   0;
+    FILE* word_com = fopen ("../kvadratka.asm", "r");
+    size_t count_of_com   = 0;
     size_t count_of_token = 0;
-    int    labels[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+    int    labels[10] = {};
+    memset (labels, -1, 10 * sizeof (int));
 
     char* test_text = read_com_asm (word_com);
     token* commands = read_word_com (&count_of_com, &count_of_token, labels, test_text);

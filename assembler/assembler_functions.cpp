@@ -9,13 +9,13 @@ char* read_com_asm (FILE* word_com)
 
     char* test_text = (char*) calloc (size_of_file + 5, sizeof (char));
     fread (test_text, sizeof (char), size_of_file, word_com);
-    for (int i = 0; i < size_of_file; i++)
-    {
-        if (test_text[i] == 13)
-        {
-            test_text[i] = '\r';
-        }
-    }
+    // for (int i = 0; i < size_of_file; i++)
+    // {
+    //     if (test_text[i] == 13)
+    //     {
+    //         test_text[i] = '\r';
+    //     }
+    // }
     return test_text;
 }
 
@@ -24,13 +24,13 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
     size_t token_mem = 10;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
-    char* cur_tok = strtok (test_text, " \r\n");
+    char* cur_tok = strtok (test_text, " \r\n\t");
     commands[0].com = cur_tok;
     for (int i = 1; cur_tok != NULL; i++)
     {
         if (token_mem <= i)
         {
-            token_mem += 10;
+            token_mem *= 2;
             struct token* commands_resize = commands;
             commands_resize = (struct token*) realloc (commands, token_mem * sizeof (struct token));
 
@@ -47,31 +47,31 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
         if (strcmp (commands[i - 1].com, "push") == 0)
         {
-            cur_tok = strtok (NULL, " \r\n");
+            cur_tok = strtok (NULL, " \r\n\t");
             commands[i - 1].val = cur_tok;
             (*count_of_token)++;
         }
 
         else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
         {
-            cur_tok = strtok (NULL, " \r\n");
+            cur_tok = strtok (NULL, " \r\n\t");
 
-            if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax;
-            else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx;
+            if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax; // indificate regs in func
+            else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx; //indificate jump here
             else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
             else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
 
             (*count_of_token)++;
         }
 
-        else if ((strchr (commands[i - 1].com, 'j') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
+        else if ((strchr (commands[i - 1].com, 'cmd_size') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
         {
-            cur_tok = strtok (NULL, " \r\n");
+            cur_tok = strtok (NULL, " \r\n\t");
             commands[i - 1].label = cur_tok;
             (*count_of_token)++;
         }
 
-        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
+        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'cmd_size') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
         {
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);
@@ -79,7 +79,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)--;
         }
 
-        cur_tok = strtok (NULL, " \r\n");
+        cur_tok = strtok (NULL, " \r\n\t");
         if (cur_tok != NULL)
         {
             commands[i].com = cur_tok;
@@ -106,8 +106,8 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
 
     int cmd_array[count_of_token];
-    int j = 0;
-    for (int i = 0; i < count_of_com && j < count_of_token; i++, j++)
+    int cmd_size = 0;
+    for (int i = 0; i < count_of_com && cmd_size < count_of_token; i++, cmd_size++)
     {
         int value = 0;
         int code_of_reg = -1;
@@ -117,9 +117,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             {
                 fprintf (num_com, "%d %d\n", PUSH, value);
 
-                cmd_array[j] = PUSH;
-                j++;
-                cmd_array[j] = value;
+                cmd_array[cmd_size] = PUSH;
+                cmd_size++;
+                cmd_array[cmd_size] = value;
             }
             else INPUT_ERR
         }
@@ -127,7 +127,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         else if (strcmp (commands[i].com, "in") == 0)
         {
             fprintf (num_com, "%d\n", IN);
-            cmd_array[j] = IN;
+            cmd_array[cmd_size] = IN;
         }
 
         else if (strcmp (commands[i].com, "pushr") == 0)
@@ -135,9 +135,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
             {
                 fprintf (num_com, "%d %d\n", PUSHR, commands[i].code_of_reg);
-                cmd_array[j] = PUSHR;
-                j++;
-                cmd_array[j] = commands[i].code_of_reg;
+                cmd_array[cmd_size] = PUSHR;
+                cmd_size++;
+                cmd_array[cmd_size] = commands[i].code_of_reg;
             }
             else INPUT_ERR
         }
@@ -147,14 +147,14 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
             {
                 fprintf (num_com, "%d %d\n", POPR, commands[i].code_of_reg);
-                cmd_array[j] = POPR;
-                j++;
-                cmd_array[j] = commands[i].code_of_reg;
+                cmd_array[cmd_size] = POPR;
+                cmd_size++;
+                cmd_array[cmd_size] = commands[i].code_of_reg;
             }
             else INPUT_ERR
         }
 
-        else if (strchr (commands[i].com, 'j') != NULL)
+        else if (strchr (commands[i].com, 'j') != NULL) // make function
         {
             int num_of_label = 0;
             if (strcmp (commands[i].com, "jmp") == 0)
@@ -162,9 +162,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JMP, labels[num_of_label]);
-                    cmd_array[j] = JMP;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JMP;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -174,9 +174,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JB, labels[num_of_label]);
-                    cmd_array[j] = JB;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JB;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -186,9 +186,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JBE, labels[num_of_label]);
-                    cmd_array[j] = JBE;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JBE;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -198,9 +198,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JA, labels[num_of_label]);
-                    cmd_array[j] = JA;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JA;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -210,9 +210,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JAE, labels[num_of_label]);
-                    cmd_array[j] = JAE;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JAE;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -222,9 +222,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JE, labels[num_of_label]);
-                    cmd_array[j] = JE;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JE;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -234,9 +234,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
                 {
                     fprintf (num_com, "%d %d\n", JNE, labels[num_of_label]);
-                    cmd_array[j] = JNE;
-                    j++;
-                    cmd_array[j] = labels[num_of_label];
+                    cmd_array[cmd_size] = JNE;
+                    cmd_size++;
+                    cmd_array[cmd_size] = labels[num_of_label];
                 }
                 else INPUT_ERR
             }
@@ -248,9 +248,9 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             if (sscanf (commands[i].label, ":%d", &num_of_label) == 1)
             {
                 fprintf (num_com, "%d %d\n", CALL, labels[num_of_label]);
-                cmd_array[j] = CALL;
-                j++;
-                cmd_array[j] = labels[num_of_label];
+                cmd_array[cmd_size] = CALL;
+                cmd_size++;
+                cmd_array[cmd_size] = labels[num_of_label];
             }
             else INPUT_ERR
         }
@@ -258,43 +258,43 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         else if (strcmp (commands[i].com, "ret") == 0)
         {
             fprintf (num_com, "%d\n", RET);
-            cmd_array[j] = RET;
+            cmd_array[cmd_size] = RET;
         }
 
         else if (strcmp (commands[i].com, "add") == 0)
         {
             fprintf (num_com, "%d\n", ADD);
-            cmd_array[j] = ADD;
+            cmd_array[cmd_size] = ADD;
         }
 
         else if (strcmp (commands[i].com, "mul") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
-            cmd_array[j] = MUL;
+            cmd_array[cmd_size] = MUL;
         }
 
         else if (strcmp (commands[i].com, "div") == 0)
         {
             fprintf (num_com, "%d\n", DIV);
-            cmd_array[j] = DIV;
+            cmd_array[cmd_size] = DIV;
         }
 
         else if (strcmp (commands[i].com, "out") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
-            cmd_array[j] = OUT;
+            cmd_array[cmd_size] = OUT;
         }
 
         else if (strcmp (commands[i].com, "sqrt") == 0)
         {
             fprintf (num_com, "%d\n", SQRT);
-            cmd_array[j] = SQRT;
+            cmd_array[cmd_size] = SQRT;
         }
 
         else if (strcmp (commands[i].com, "hlt") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
-            cmd_array[j] = HLT;
+            cmd_array[cmd_size] = HLT;
         }
 
         else if (strcmp (commands[i].com, "\n") == 0)
@@ -304,14 +304,15 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
         else if (strchr (commands[i].com, ':') != NULL)
         {
-            j--;
+            cmd_size--;
             continue;
         }
         else INPUT_ERR
     }
 
     fprintf(num_com, "------End of list of commands------\n");
-    fwrite (cmd_array, sizeof (int), j , num_com_bin); // to improve j
+    fwrite (cmd_array, sizeof (int), cmd_size , num_com_bin); // to improve cmd_size
     fclose (num_com);
     fclose (num_com_bin);
 }
+// make define with names of commands or array with name
