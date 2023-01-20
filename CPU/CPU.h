@@ -34,7 +34,7 @@ enum code_of_com
 
 //--------------------------------------------------------------------------------------
 
-void dist_task    (stack_t* box, stack_t* func_ret, processor* cpu, double elem);
+void ran_task    (stack_t* box, stack_t* func_ret, processor* cpu, double elem);
 int* read_num_com ();
 void stack_add    (stack_t* box, double elem);
 void stack_mul    (stack_t* box, double elem);

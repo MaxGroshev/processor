@@ -1,6 +1,6 @@
 #include "CPU.h"
 
-void dist_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
+void ran_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
 {
     int* code_of_com = read_num_com();
     int  code_of_reg = 0; // code of register
