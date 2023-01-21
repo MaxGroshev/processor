@@ -7,7 +7,7 @@
 #include <math.h>
 #include "input_err.h"
 
-struct token // token_t
+struct token
 {
     char*  com;
     char*  val;

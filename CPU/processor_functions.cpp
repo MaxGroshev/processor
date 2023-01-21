@@ -1,8 +1,8 @@
 #include "CPU.h"
 
-void ran_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
+void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
 {
-    int* code_of_com = read_num_com();
+    int* code_of_com = read_bin_file (cpu);
     int  code_of_reg = 0; // code of register
     for (int i = 0; code_of_com[i] != HLT; i++)
     {
@@ -128,43 +128,20 @@ void ran_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem)
         }
     }
     free (code_of_com);
-} // rename func to run_task
+}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
-int* read_num_com ()
+int* read_bin_file (processor* cpu)
 {
-    int size_of_com = 5;
-    int* code_of_com = (int*) calloc (size_of_com, sizeof (int));
     FILE* num_com_bin = fopen ("../test-code.bin", "rb");
+    stat ("../test-code.bin", &cpu->stat_of_bin);
+    size_t size_of_bin = cpu->stat_of_bin.st_size;
+    int* code_of_com = (int*) calloc (size_of_bin, sizeof (int));
     for (int i = 0; !feof (num_com_bin); i++)
     {
-        if (size_of_com <= i)
-        {
-            size_of_com += 10;
-            int* code_of_com_resize = code_of_com;
-            code_of_com_resize = (int*) realloc (code_of_com, size_of_com * sizeof (int));
-
-            if (code_of_com_resize != NULL)
-            {
-                code_of_com = code_of_com_resize;
-            }
-
-            else
-            {
-                printf ("Error of reallocating\n");
-            }
-        } //remove realloc, make fread, use fstat
-
-        int buffer = 0;
-        fread (&buffer, sizeof (int), 1, num_com_bin);
-
-        if (feof (num_com_bin))
-        {
-            continue;
-        } // TO DO: dump processor (file is over)
-
-        code_of_com[i] = buffer;
+        fread (code_of_com, sizeof (int), size_of_bin, num_com_bin);
+        // TO DO: dump processor (file is over)
     }
     fclose (num_com_bin);
 

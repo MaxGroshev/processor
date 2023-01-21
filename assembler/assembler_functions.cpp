@@ -9,13 +9,6 @@ char* read_com_asm (FILE* word_com)
 
     char* test_text = (char*) calloc (size_of_file + 5, sizeof (char));
     fread (test_text, sizeof (char), size_of_file, word_com);
-    // for (int i = 0; i < size_of_file; i++)
-    // {
-    //     if (test_text[i] == 13)
-    //     {
-    //         test_text[i] = '\r';
-    //     }
-    // }
     return test_text;
 }
 
