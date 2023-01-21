@@ -2,13 +2,12 @@
 
 char* read_com_asm (FILE* word_com)
 {
-    int first_pos = ftell (word_com);
-    fseek (word_com, 0, SEEK_END);
-    int size_of_file = ftell (word_com);
-    fseek (word_com, first_pos, SEEK_SET);
+    struct stat stat_of_txt;
+    stat ("../kvadratka.asm", &stat_of_txt);
+    size_t size_of_file = stat_of_txt.st_size;
 
-    char* test_text = (char*) calloc (size_of_file + 5, sizeof (char));
-    fread (test_text, sizeof (char), size_of_file, word_com);
+    char*  test_text = (char*) calloc (size_of_file, sizeof (char));
+    fread  (test_text, sizeof (char), size_of_file, word_com);
     return test_text;
 }
 
@@ -57,14 +56,14 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
         }
 
-        else if ((strchr (commands[i - 1].com, 'cmd_size') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
+        else if ((strchr (commands[i - 1].com, 'j') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
         {
             cur_tok = strtok (NULL, " \r\n\t");
             commands[i - 1].label = cur_tok;
             (*count_of_token)++;
         }
 
-        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'cmd_size') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
+        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
         {
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);

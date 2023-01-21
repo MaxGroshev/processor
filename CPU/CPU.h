@@ -40,7 +40,7 @@ enum code_of_com
 //--------------------------------------------------------------------------------------
 
 void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem);
-int* read_bin_file  (processor* cpu);
+int* read_bin_file (processor* cpu);
 void stack_add     (stack_t* box, double elem);
 void stack_mul     (stack_t* box, double elem);
 void stack_div     (stack_t* box, double elem);
