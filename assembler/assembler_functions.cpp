@@ -36,14 +36,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             }
         }
 
-        if (strcmp (commands[i - 1].com, "push") == 0)
-        {
-            cur_tok = strtok (NULL, " \r\n\t");
-            commands[i - 1].val = cur_tok;
-            (*count_of_token)++;
-        }
-
-        else if ((strcmp (commands[i - 1].com, "pushr") == 0) || (strcmp (commands[i - 1].com, "popr") == 0))
+        if ((strcmp (commands[i - 1].com, "push") == 0) || (strcmp (commands[i - 1].com, "pop") == 0))
         {
             cur_tok = strtok (NULL, " \r\n\t");
 
@@ -51,10 +44,12 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx; //indificate jump here
             else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
             else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
-            else INPUT_ERR
+            else    commands[i - 1].val = cur_tok;
+
+            //else INPUT_ERR
 
             (*count_of_token)++;
-        }
+        }// improve "if" probably make func
 
         else if ((strchr (commands[i - 1].com, 'j') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
         {
@@ -105,7 +100,17 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         int code_of_reg = -1;
         if (strcmp (commands[i].com, "push") == 0)
         {
-            if (sscanf (commands[i].val, "%d", &value) == 1)
+            if ((commands[i].code_of_reg != NULL) && (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx))
+            {
+                fprintf (num_com, "%d %d\n", PUSHR, commands[i].code_of_reg);
+                cmd_array[cmd_size] = PUSHR;
+                cmd_size++;
+                cmd_array[cmd_size] = commands[i].code_of_reg;
+                //printf ("I am here\n");
+
+            }
+
+            else if (sscanf (commands[i].val, "%d", &value) == 1)
             {
                 fprintf (num_com, "%d %d\n", PUSH, value);
 
@@ -122,24 +127,12 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_array[cmd_size] = IN;
         }
 
-        else if (strcmp (commands[i].com, "pushr") == 0)
+        else if (strcmp (commands[i].com, "pop") == 0) // not finished ver: work in case of registers
         {
             if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
             {
-                fprintf (num_com, "%d %d\n", PUSHR, commands[i].code_of_reg);
-                cmd_array[cmd_size] = PUSHR;
-                cmd_size++;
-                cmd_array[cmd_size] = commands[i].code_of_reg;
-            }
-            else INPUT_ERR
-        }
-
-        else if (strcmp (commands[i].com, "popr") == 0)
-        {
-            if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
-            {
-                fprintf (num_com, "%d %d\n", POPR, commands[i].code_of_reg);
-                cmd_array[cmd_size] = POPR;
+                fprintf (num_com, "%d %d\n", POP, commands[i].code_of_reg);
+                cmd_array[cmd_size] = POP;
                 cmd_size++;
                 cmd_array[cmd_size] = commands[i].code_of_reg;
             }

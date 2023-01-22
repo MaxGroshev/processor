@@ -1,38 +1,38 @@
 in
 in
 in
-popr      cx
+pop      cx
 
 
 
 
 
-popr bx
-popr ax
-pushr ax
-pushr cx
+pop bx
+pop ax
+push ax
+push cx
 push -4
 mul
 mul
-pushr bx
-pushr bx
+push bx
+push bx
 mul
 add
 sqrt
-popr dx
+pop dx
 push 2
-pushr ax
+push ax
 mul
-pushr dx
+push dx
 jmp :1
 :2
 push 2
-pushr ax
+push ax
 mul
-pushr dx
+push dx
 push -1
 mul
-pushr bx
+push bx
 push -1
 mul
 add
@@ -40,7 +40,7 @@ div
 out
 ret
 :1
-pushr bx
+push bx
 push -1
 mul
 add

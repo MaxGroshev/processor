@@ -25,7 +25,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 stack_push (box, cpu->registers[code_of_reg]);
                 break;
 
-            case POPR:
+            case POP: // not finished ver: work in case of registers
                 i++;
                 cpu->registers[code_of_com[i]] = stack_pop (box);
                 break;
