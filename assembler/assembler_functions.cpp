@@ -2,8 +2,8 @@
 
 char* read_com_asm (FILE* word_com)
 {
-    struct stat stat_of_txt;
-    stat ("../kvadratka.asm", &stat_of_txt);
+    struct stat stat_of_txt = {};
+    stat ("../fact.asm", &stat_of_txt);
     size_t size_of_file = stat_of_txt.st_size;
 
     char*  test_text = (char*) calloc (size_of_file, sizeof (char));
@@ -13,7 +13,6 @@ char* read_com_asm (FILE* word_com)
 
 struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* test_text)
 {
-
     size_t token_mem = 10;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
     char* cur_tok = strtok (test_text, " \r\n\t");
@@ -48,10 +47,11 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
         {
             cur_tok = strtok (NULL, " \r\n\t");
 
-            if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax; // indificate regs in func
+            if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax; //indificate regs in func
             else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx; //indificate jump here
             else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
             else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
+            else INPUT_ERR
 
             (*count_of_token)++;
         }
@@ -303,7 +303,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
     }
 
     fprintf(num_com, "------End of list of commands------\n");
-    fwrite (cmd_array, sizeof (int), cmd_size , num_com_bin); // to improve cmd_size
+    fwrite (cmd_array, sizeof (int), cmd_size , num_com_bin);
     fclose (num_com);
     fclose (num_com_bin);
 }

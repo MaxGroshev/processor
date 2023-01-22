@@ -2,7 +2,7 @@
 
 int main ()
 {
-    FILE* word_com = fopen ("../kvadratka.asm", "r");
+    FILE* word_com = fopen ("../fact.asm", "r");
     size_t count_of_com   = 0;
     size_t count_of_token = 0;
     int    labels[10] = {};

@@ -58,7 +58,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JB:
-                if (box->data[box->counter - 1] < box->data[box->counter - 2])
+                if (stack_pop (box) < stack_pop (box))
                 {
                     i++;
                     i = code_of_com[i];
@@ -67,7 +67,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JBE:
-                if (box->data[box->counter - 1] <= box->data[box->counter - 2])
+                if (stack_pop (box) <= stack_pop (box))
                 {
                     i++;
                     i = code_of_com[i];
@@ -76,7 +76,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JA:
-                if (box->data[box->counter - 1] > box->data[box->counter - 2])
+                if (stack_pop (box) > stack_pop (box))
                 {
                     i++;
                     i = code_of_com[i];
@@ -85,7 +85,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JAE:
-                if (box->data[box->counter - 1] >= box->data[box->counter - 2])
+                if (stack_pop (box) >= stack_pop (box))
                 {
                     i++;
                     i = code_of_com[i];
@@ -94,7 +94,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JE:
-                if (box->data[box->counter - 1] == box->data[box->counter - 2])
+                if (stack_pop (box) == stack_pop (box))
                 {
                     i++;
                     i = code_of_com[i];
@@ -103,7 +103,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JNE:
-                if (box->data[box->counter - 1] != box->data[box->counter - 2])
+                if (stack_pop (box) != stack_pop (box))
                 {
                     i++;
                     i = code_of_com[i];
