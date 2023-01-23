@@ -48,7 +48,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
         }
 
-        else if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
+        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
         {
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);

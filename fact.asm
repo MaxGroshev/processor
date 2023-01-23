@@ -1,24 +1,24 @@
 in
-pop dx
-push dx
+call :13
 
-:1
-pop ax
+jmp :14
+:13
+pop  ax
+push ax
+push  1
+je   :12
 push ax
 push -1
 add
-push dx
+push ax
+pop  bx
+pop  ax
+push bx
+push ax
+call :13
 mul
-pop dx
-push ax
-push -1
-add
-push 1
-push ax
-push -1
-add
-
-ja :1
-push dx
+:12
+ret
+:14
 out
 hlt
