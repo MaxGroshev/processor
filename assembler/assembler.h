@@ -54,6 +54,7 @@ enum registers
 
 //==================================================================================================================================
 
-char* read_com_asm          (FILE* word_com);
+char*  read_com_asm         (FILE* word_com);
 struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* test_text);
-void translate_com          (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* test_text);
+void   translate_com        (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* test_text);
+void   push_def             (struct token* commands, char* cur_tok, size_t* count_of_token, int i);

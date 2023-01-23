@@ -38,18 +38,8 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
         if ((strcmp (commands[i - 1].com, "push") == 0) || (strcmp (commands[i - 1].com, "pop") == 0))
         {
-            cur_tok = strtok (NULL, " \r\n\t");
-
-            if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax; //indificate regs in func
-            else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx; //indificate jump here
-            else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
-            else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
-            else    commands[i - 1].val = cur_tok;
-
-            //else INPUT_ERR
-
-            (*count_of_token)++;
-        }// improve "if" probably make func
+            push_def (commands, cur_tok, count_of_token, i);
+        }
 
         else if ((strchr (commands[i - 1].com, 'j') != NULL) || (strcmp (commands[i - 1].com, "call") == 0))
         {
@@ -58,7 +48,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
         }
 
-        if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
+        else if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
         {
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);
@@ -83,6 +73,21 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
     (*count_of_token)++;
     printf ("%ld\n", *count_of_token);
     return commands;
+}
+
+void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, int i)
+{
+    cur_tok = strtok (NULL, " \r\n\t");
+
+    if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax; //indificate regs in func
+    else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx; //indificate jump here
+    else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
+    else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
+    else    commands[i - 1].val = cur_tok;
+
+    //else INPUT_ERR
+
+    (*count_of_token)++;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -118,7 +123,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = value;
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "in") == 0)
@@ -136,7 +141,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[i].code_of_reg;
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strchr (commands[i].com, 'j') != NULL) // make function
@@ -151,7 +156,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+              //  else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jb") == 0)
@@ -163,7 +168,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+                //else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jbe") == 0)
@@ -175,7 +180,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+                //else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "ja") == 0)
@@ -187,7 +192,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+                //else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jae") == 0)
@@ -199,7 +204,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+                //else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "je") == 0)
@@ -211,7 +216,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+                //else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jne") == 0)
@@ -223,7 +228,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                else INPUT_ERR
+                //else INPUT_ERR
             }
         }
 
@@ -237,7 +242,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = labels[num_of_label];
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "ret") == 0)
@@ -292,7 +297,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_size--;
             continue;
         }
-        else INPUT_ERR
+       // else INPUT_ERR
     }
 
     fprintf(num_com, "------End of list of commands------\n");
