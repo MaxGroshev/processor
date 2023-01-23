@@ -22,4 +22,3 @@ ja :1
 push dx
 out
 hlt
-

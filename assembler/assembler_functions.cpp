@@ -3,10 +3,10 @@
 char* read_com_asm (FILE* word_com)
 {
     struct stat stat_of_txt = {};
-    stat ("../fact.asm", &stat_of_txt);
+    stat   ("../fact.asm", &stat_of_txt);
     size_t size_of_file = stat_of_txt.st_size;
 
-    char*  test_text = (char*) calloc (size_of_file, sizeof (char));
+    char*  test_text = (char*) calloc (size_of_file + 1, sizeof (char));
     fread  (test_text, sizeof (char), size_of_file, word_com);
     return test_text;
 }
@@ -15,7 +15,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 {
     size_t token_mem = 10;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
-    char* cur_tok = strtok (test_text, " \r\n\t");
+    char*  cur_tok = strtok (test_text, " \r\n\t");
     commands[0].com = cur_tok;
     for (int i = 1; cur_tok != NULL; i++)
     {
@@ -78,15 +78,26 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, int i)
 {
     cur_tok = strtok (NULL, " \r\n\t");
+    if (strchr (cur_tok, 'x') != NULL)
+    {
+        if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax;
+        else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx;
+        else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
+        else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
+        //else    INPUT_ERR //not a loop
 
-    if      (strcmp (cur_tok, "ax") == 0) commands[i - 1].code_of_reg = ax; //indificate regs in func
-    else if (strcmp (cur_tok, "bx") == 0) commands[i - 1].code_of_reg = bx; //indificate jump here
-    else if (strcmp (cur_tok, "cx") == 0) commands[i - 1].code_of_reg = cx;
-    else if (strcmp (cur_tok, "dx") == 0) commands[i - 1].code_of_reg = dx;
-    else    commands[i - 1].val = cur_tok;
+        if (strcmp (commands[i - 1].com, "push") == 0)
+        {
+            commands[i - 1].com = (char*) "pushr";
+        }
+    }
+
+    else
+    {
+        commands[i - 1].val = cur_tok;
+    }
 
     //else INPUT_ERR
-
     (*count_of_token)++;
 }
 
@@ -105,17 +116,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         int code_of_reg = -1;
         if (strcmp (commands[i].com, "push") == 0)
         {
-            if ((commands[i].code_of_reg != NULL) && (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx))
-            {
-                fprintf (num_com, "%d %d\n", PUSHR, commands[i].code_of_reg);
-                cmd_array[cmd_size] = PUSHR;
-                cmd_size++;
-                cmd_array[cmd_size] = commands[i].code_of_reg;
-                //printf ("I am here\n");
-
-            }
-
-            else if (sscanf (commands[i].val, "%d", &value) == 1)
+            if (sscanf (commands[i].val, "%d", &value) == 1)
             {
                 fprintf (num_com, "%d %d\n", PUSH, value);
 
@@ -123,13 +124,25 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = value;
             }
-            //else INPUT_ERR
+            else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "in") == 0)
         {
             fprintf (num_com, "%d\n", IN);
             cmd_array[cmd_size] = IN;
+        }
+
+        else if (strcmp (commands[i].com, "pushr") == 0)
+        {
+            if (commands[i].code_of_reg >= ax && commands[i].code_of_reg <= dx)
+            {
+                fprintf (num_com, "%d %d\n", PUSHR, commands[i].code_of_reg);
+                cmd_array[cmd_size] = PUSHR;
+                cmd_size++;
+                cmd_array[cmd_size] = commands[i].code_of_reg;
+            }
+            else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "pop") == 0) // not finished ver: work in case of registers
