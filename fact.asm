@@ -1,7 +1,11 @@
 in
+push 17
+pop dx
+push 17
+pop dx
 call :13
-
-jmp :14
+out
+jmp :143
 :13
 pop  ax
 push ax
@@ -19,6 +23,5 @@ call :13
 mul
 :12
 ret
-:14
-out
+:143
 hlt

@@ -29,6 +29,7 @@ void stack_push (stack_t* box, double element)
         STACK_CHECK
     }
     box->data[box->counter++] = element * 100;
+
     if (box->capacity < box->counter)
     {
         box->capacity++;

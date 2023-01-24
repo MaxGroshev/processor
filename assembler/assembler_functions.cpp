@@ -6,16 +6,16 @@ char* read_com_asm (FILE* word_com)
     stat   ("../fact.asm", &stat_of_txt);
     size_t size_of_file = stat_of_txt.st_size;
 
-    char*  test_text = (char*) calloc (size_of_file + 1, sizeof (char));
-    fread  (test_text, sizeof (char), size_of_file, word_com);
-    return test_text;
+    char*  asm_text = (char*) calloc (size_of_file + 1, sizeof (char));
+    fread  (asm_text, sizeof (char), size_of_file, word_com);
+    return asm_text;
 }
 
-struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* test_text)
+struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_text)
 {
     size_t token_mem = 10;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
-    char*  cur_tok = strtok (test_text, " \r\n\t");
+    char*  cur_tok = strtok (asm_text, " \r\n\t");
     commands[0].com = cur_tok;
     for (int i = 1; cur_tok != NULL; i++)
     {
@@ -46,6 +46,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             cur_tok = strtok (NULL, " \r\n\t");
             commands[i - 1].label = cur_tok;
             (*count_of_token)++;
+           // printf ("%s\n", cur_tok);
         }
 
         if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[i - 1].com, 'j') == NULL) && (strcmp (commands[i - 1].com, "call") != 0))
@@ -54,6 +55,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             int res = sscanf (cur_tok, ":%d", &num_of_label);
             labels[num_of_label] = *count_of_token;
             (*count_of_token)--;
+           // printf ("%s\n", cur_tok);
         }
 
         cur_tok = strtok (NULL, " \r\n\t");
@@ -103,7 +105,7 @@ void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, in
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
-void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* test_text)
+void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* asm_text)
 {
     FILE* num_com     = fopen ("../test.code","w");
     FILE* num_com_bin = fopen ("../test-code.bin","wb");
@@ -154,7 +156,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[i].code_of_reg;
             }
-            //else INPUT_ERR
+            else INPUT_ERR
         }
 
         else if (strchr (commands[i].com, 'j') != NULL) // make function
@@ -169,7 +171,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-              //  else INPUT_ERR
+                else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jb") == 0)
@@ -181,7 +183,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                //else INPUT_ERR
+                else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jbe") == 0)
@@ -193,7 +195,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                //else INPUT_ERR
+                else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "ja") == 0)
@@ -205,7 +207,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                //else INPUT_ERR
+                else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jae") == 0)
@@ -217,7 +219,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                //else INPUT_ERR
+                else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "je") == 0)
@@ -229,7 +231,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                //else INPUT_ERR
+                else INPUT_ERR
             }
 
             else if (strcmp (commands[i].com, "jne") == 0)
@@ -241,7 +243,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                     cmd_size++;
                     cmd_array[cmd_size] = labels[num_of_label];
                 }
-                //else INPUT_ERR
+                else INPUT_ERR
             }
         }
 
@@ -255,7 +257,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = labels[num_of_label];
             }
-            //else INPUT_ERR
+            else INPUT_ERR
         }
 
         else if (strcmp (commands[i].com, "ret") == 0)
@@ -310,7 +312,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_size--;
             continue;
         }
-       // else INPUT_ERR
+        else INPUT_ERR
     }
 
     fprintf(num_com, "------End of list of commands------\n");

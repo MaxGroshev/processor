@@ -8,11 +8,11 @@ int main ()
     int    labels[10] = {};
     memset (labels, -1, 10 * sizeof (int));
 
-    char* test_text = read_com_asm (word_com);
-    token* commands = read_word_com (&count_of_com, &count_of_token, labels, test_text);
-    translate_com (commands, count_of_com, count_of_token, labels, test_text);
+    char* asm_text = read_com_asm (word_com);
+    token* commands = read_word_com (&count_of_com, &count_of_token, labels, asm_text);
+    translate_com (commands, count_of_com, count_of_token, labels, asm_text);
 
     fclose (word_com);
     free   (commands);
-    free   (test_text);
+    free   (asm_text);
 }

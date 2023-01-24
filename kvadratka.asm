@@ -1,12 +1,7 @@
 in
 in
 in
-pop      cx
-
-
-
-
-
+pop cx
 pop bx
 pop ax
 push ax

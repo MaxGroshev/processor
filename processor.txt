@@ -1,4 +1,12 @@
-ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 49
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [600]
+  1 [200]
+  2 [100]
+  3 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
 ERROR: Request to cell thar does not belong to stack
  -1 [0] - Current cell is out of stack
   0 [12000]
@@ -8,9 +16,208 @@ ERROR: Request to cell thar does not belong to stack
   4 [100]
   5 [100]
 -----End of the current print-----
-ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 49
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
 ERROR: Request to cell thar does not belong to stack
  -1 [0] - Current cell is out of stack
-  0 [500]
-  1 [100]
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [600]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [600]
+  1 [200]
+  2 [100]
+  3 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [12000]
+  1 [2400]
+  2 [600]
+  3 [200]
+  4 [100]
+  5 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [12000]
+  1 [2400]
+  2 [600]
+  3 [200]
+  4 [100]
+  5 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [600]
+  1 [2000]
+  2 [400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [600]
+  1 [2000]
+  2 [400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [600]
+  1 [2000]
+  2 [400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [72000]
+  1 [12000]
+  2 [2400]
+  3 [600]
+  4 [200]
+  5 [100]
+  6 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [504000]
+  1 [72000]
+  2 [12000]
+  3 [2400]
+  4 [600]
+  5 [200]
+  6 [100]
+  7 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+ -1 [0] - Current cell is out of stack
+  0 [504000]
+  1 [72000]
+  2 [12000]
+  3 [2400]
+  4 [600]
+  5 [200]
+  6 [100]
+  7 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+  0 [504000]
+  1 [72000]
+  2 [12000]
+  3 [2400]
+  4 [600]
+  5 [200]
+  6 [100]
+  7 [100]
+-----End of the current print-----
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 50
+ERROR: Request to cell thar does not belong to stack
+  0 [504000]
+  1 [72000]
+  2 [12000]
+  3 [2400]
+  4 [600]
+  5 [200]
+  6 [100]
+  7 [100]
+-----End of the current print-----
+  0 [-268435456] - Current cell
+  1 [-2147483648]
+  2 [-500]
+  3 [-100]
 -----End of the current print-----

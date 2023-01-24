@@ -121,6 +121,11 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
             case RET:
                 i = stack_pop (func_ret);
                 i--;
+                for (int i = 0; i < func_ret->counter; i++)
+                {
+                    printf ("%d\n", func_ret->data[i]);
+                }
+                printf ("That is all\n");
                 break;
 
             case HLT:
