@@ -46,7 +46,7 @@ double stack_pop (stack_t* box)
     box->counter--;
     double element = box->data[box->counter];
     element = element / 100;
-   // box->data[box->counter] = 0X7777777;
+    box->data[box->counter] = 0X7777777;
     STACK_CHECK
 
     return element;
@@ -59,6 +59,7 @@ void stack_delete (stack_t* box, stack_t* func_ret)
     free (box->data);
     free (func_ret->data);
 }
+
 
 
 

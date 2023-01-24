@@ -1,20 +1,4 @@
-jmp 1
-:10
-push 10
-popr bx // for one stack
-ret
-:1
-push 5
-push 20
-add
-call 10
-popr ax
-push 12
-push 5
-pushr ax
-mul
-out
-hlt
+
 
 
 ; int fact (int n)

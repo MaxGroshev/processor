@@ -1,16 +1,13 @@
+push 1
 in
-push 17
-pop dx
-push 17
-pop dx
 call :13
-out
-jmp :143
+
+jmp :1
 :13
 pop  ax
 push ax
 push  1
-je   :12
+je   :2
 push ax
 push -1
 add
@@ -21,7 +18,8 @@ push bx
 push ax
 call :13
 mul
-:12
+:2
 ret
-:143
+:1
+out
 hlt
