@@ -1,6 +1,6 @@
 #pragma once
 #define DEBUG
-#define NAME_OF_PROG "../fact.asm"
+#define NAME_OF_PROG "../kvadratka.asm"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

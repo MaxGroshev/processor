@@ -1,9 +1,26 @@
+push 1
 in
 in
 in
 pop cx
 pop bx
 pop ax
+push ax
+push 0
+jne :8
+push bx
+push 0
+je :9
+push bx
+push cx
+
+push -1
+mul
+div
+out
+jmp :9
+:8
+
 push ax
 push cx
 push -4
@@ -13,6 +30,11 @@ push bx
 push bx
 mul
 add
+pop  dx
+push dx
+push 0
+ja :9
+push dx
 sqrt
 pop dx
 push 2
@@ -42,4 +64,5 @@ add
 div
 out
 call :2
+:9
 hlt
