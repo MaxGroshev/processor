@@ -11,6 +11,8 @@ char* read_com_asm (FILE* word_com)
     return asm_prog;
 }
 
+//-----------------------------------------------------------------------------------------------------------------------
+
 struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_prog)
 {
     size_t token_mem = 10;
@@ -71,34 +73,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
     }
     (*count_of_com)++;
     (*count_of_token)++;
-    printf ("%ld\n", *count_of_token);
     return commands;
-}
-
-void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, int cur_elem) // remove cur_elem - rename var
-{
-    cur_tok = strtok (NULL, " \r\n\t");
-    if (strchr (cur_tok, 'x') != NULL)
-    {
-        if      (strcmp (cur_tok, "ax") == 0) commands[cur_elem - 1].code_of_reg = ax;
-        else if (strcmp (cur_tok, "bx") == 0) commands[cur_elem - 1].code_of_reg = bx;
-        else if (strcmp (cur_tok, "cx") == 0) commands[cur_elem - 1].code_of_reg = cx;
-        else if (strcmp (cur_tok, "dx") == 0) commands[cur_elem - 1].code_of_reg = dx;
-        //else    INPUT_ERR //not a loop
-
-        if (strcmp (commands[cur_elem - 1].com, "push") == 0)
-        {
-            commands[cur_elem - 1].com = (char*) "pushr";
-        }
-    }
-
-    else
-    {
-        commands[cur_elem - 1].val = cur_tok;
-    }
-
-    //else INPUT_ERR
-    (*count_of_token)++;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -157,7 +132,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR
         }
 
-        else if (strchr (commands[cur_elem].com, 'j') != NULL) // make function
+        else if (strchr (commands[cur_elem].com, 'j') != NULL)
         {
             jmp_def (num_com ,commands, labels, cmd_array, &cmd_size, cur_elem);
         }
@@ -237,6 +212,36 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 }
 // make define with names of commands or array with name
 
+//========================================================================================================================
+
+void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, int cur_elem)
+{
+    cur_tok = strtok (NULL, " \r\n\t");
+    if (strchr (cur_tok, 'x') != NULL)
+    {
+        if      (strcmp (cur_tok, "ax") == 0) commands[cur_elem - 1].code_of_reg = ax;
+        else if (strcmp (cur_tok, "bx") == 0) commands[cur_elem - 1].code_of_reg = bx;
+        else if (strcmp (cur_tok, "cx") == 0) commands[cur_elem - 1].code_of_reg = cx;
+        else if (strcmp (cur_tok, "dx") == 0) commands[cur_elem - 1].code_of_reg = dx;
+        //else    INPUT_ERR //not a loop
+
+        if (strcmp (commands[cur_elem - 1].com, "push") == 0)
+        {
+            commands[cur_elem - 1].com = (char*) "pushr";
+        }
+    }
+
+    else
+    {
+        commands[cur_elem - 1].val = cur_tok;
+    }
+
+    //else INPUT_ERR
+    (*count_of_token)++;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------
+
 void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array, int* cmd_size, int cur_elem)
 {
     int num_of_label = 0;
@@ -249,7 +254,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        //else INPUT_ERR
+        else INPUT_ERR
     }
 
     else if (strcmp (commands[cur_elem].com, "jb") == 0)
@@ -261,7 +266,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-      //  else INPUT_ERR
+        else INPUT_ERR
     }
 
     else if (strcmp (commands[cur_elem].com, "jbe") == 0)
@@ -273,7 +278,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        //else INPUT_ERR
+        else INPUT_ERR
     }
 
     else if (strcmp (commands[cur_elem].com, "ja") == 0)
@@ -285,7 +290,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-       // else INPUT_ERR
+        else INPUT_ERR
     }
 
     else if (strcmp (commands[cur_elem].com, "jae") == 0)
@@ -297,7 +302,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-       // else INPUT_ERR // Improve check of mistakes: remove break because can not work out of loops
+        else INPUT_ERR // Improve check of mistakes: remove break because can not work out of loops
     }
 
     else if (strcmp (commands[cur_elem].com, "je") == 0)
@@ -309,7 +314,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-       // else INPUT_ERR
+        else INPUT_ERR
     }
 
     else if (strcmp (commands[cur_elem].com, "jne") == 0)
@@ -321,6 +326,6 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-       // else INPUT_ERR
+        else INPUT_ERR
     }
 }
