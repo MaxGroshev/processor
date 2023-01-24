@@ -1,8 +1,13 @@
 push 1
 in
+pop  ax
+push ax
+jb   :9
+push 1
+push ax
 call :13
+jmp  :1
 
-jmp :1
 :13
 pop  ax
 push ax
@@ -18,8 +23,10 @@ push bx
 push ax
 call :13
 mul
+
 :2
 ret
 :1
 out
+:9
 hlt

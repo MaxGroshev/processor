@@ -1,5 +1,6 @@
 #pragma once
 #define DEBUG
+#define NAME_OF_PROG "../fact.asm"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,6 +56,7 @@ enum registers
 //==================================================================================================================================
 
 char*  read_com_asm         (FILE* word_com);
-struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_text);
-void   translate_com        (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* asm_text);
-void   push_def             (struct token* commands, char* cur_tok, size_t* count_of_token, int i);
+struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_prog);
+void   translate_com        (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* asm_prog);
+void   push_def             (struct token* commands, char* cur_tok, size_t* count_of_token, int cur_elem);
+void jmp_def                (FILE* num_com, struct token* commands, int* labels, int* cmd_array, int* cmd_size, int cur_elem);
