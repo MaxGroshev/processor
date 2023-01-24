@@ -7,6 +7,7 @@
 #include <math.h>
 #include <sys/stat.h>
 #include "input_err.h"
+#include "../my_ASSERT.h"
 
 struct stat;
 

@@ -4,6 +4,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
 {
     int status = stack_check(box);
     FILE* print_fail = fopen ("../processor.txt", "a");
+    MY_ASSERT (print_fail != NULL);
     if (status != 0)
     {
         fprintf (stderr,"Error of running program, check processor.txt! \007\n");

@@ -6,8 +6,9 @@ char* read_com_asm (FILE* word_com)
     stat   (NAME_OF_PROG, &stat_of_txt);
     size_t size_of_file = stat_of_txt.st_size;
 
-    char*  asm_prog = (char*) calloc (size_of_file + 1, sizeof (char));
-    fread  (asm_prog, sizeof (char), size_of_file, word_com);
+    char*      asm_prog = (char*) calloc (size_of_file + 1, sizeof (char));
+    MY_ASSERT (asm_prog != NULL);
+    fread     (asm_prog, sizeof (char), size_of_file, word_com);
     return asm_prog;
 }
 
@@ -17,7 +18,9 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 {
     size_t token_mem = 10;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
+    MY_ASSERT (commands != NULL);
     char*  cur_tok  = strtok (asm_prog, " \r\n\t");
+    MY_ASSERT (cur_tok != NULL);
     commands[0].com = cur_tok;
     for (int cur_elem = 1; cur_tok != NULL; cur_elem++)
     {
@@ -26,16 +29,8 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             token_mem *= 2;
             struct token* commands_resize = commands;
             commands_resize = (struct token*) realloc (commands, token_mem * sizeof (struct token));
-
-            if (commands_resize != NULL)
-            {
-                commands = commands_resize;
-            }
-
-            else
-            {
-                printf ("Error of reallocating\n");
-            }
+            MY_ASSERT (commands_resize != NULL);
+            commands = commands_resize;
         }
 
         if ((strcmp (commands[cur_elem - 1].com, "push") == 0) || (strcmp (commands[cur_elem - 1].com, "pop") == 0))
@@ -80,8 +75,10 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
 void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* asm_prog)
 {
-    FILE* num_com     = fopen ("../test.code","w");
-    FILE* num_com_bin = fopen ("../test-code.bin","wb");
+    FILE*      num_com     = fopen ("../test.code","w");
+    MY_ASSERT (num_com != NULL);
+    FILE*      num_com_bin = fopen ("../test-code.bin","wb");
+    MY_ASSERT (num_com_bin != NULL);
 
     int cmd_array[count_of_token];
     int cmd_size = 0;

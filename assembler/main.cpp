@@ -3,6 +3,7 @@
 int main ()
 {
     FILE*  word_com = fopen (NAME_OF_PROG, "r");
+    MY_ASSERT (word_com != NULL);
     size_t count_of_com   = 0;
     size_t count_of_token = 0;
     int    labels[10]     = {};

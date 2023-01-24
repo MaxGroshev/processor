@@ -135,9 +135,11 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
 int* read_bin_file (processor* cpu)
 {
     FILE* num_com_bin = fopen ("../test-code.bin", "rb");
+    MY_ASSERT (num_com_bin != NULL);
     stat ("../test-code.bin", &cpu->stat_of_bin);
     size_t size_of_bin = cpu->stat_of_bin.st_size;
     int* code_of_com = (int*) calloc (size_of_bin, sizeof (int));
+    MY_ASSERT (code_of_com != NULL);
     for (int i = 0; !feof (num_com_bin); i++)
     {
         fread (code_of_com, sizeof (int), size_of_bin, num_com_bin);

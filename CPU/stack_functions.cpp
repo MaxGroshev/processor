@@ -3,7 +3,9 @@
 void stack_init (stack_t* box, stack_t* func_ret)
 {
     box->data      = (type_of_elem*) calloc (box->capacity, sizeof (type_of_elem));
+    MY_ASSERT        (box->data != NULL);
     func_ret->data = (type_of_elem*) calloc (10, sizeof (type_of_elem)); //size of ret value is not more then 10
+    MY_ASSERT        (func_ret->data != NULL);
     STACK_CHECK
 }
 
@@ -17,15 +19,8 @@ void stack_push (stack_t* box, double element)
     {
         int* stack_resize = box->data;
         stack_resize = (int*) realloc (box->data, (box->counter + 20) * sizeof (type_of_elem));
-        if (box->data != NULL)
-        {
-            box->data = stack_resize;
-        }
-
-        else
-        {
-            printf ("It is impossible to widen size of stack\n");
-        }
+        MY_ASSERT (stack_resize != NULL);
+        box->data = stack_resize;
         STACK_CHECK
     }
     box->data[box->counter++] = element * 100;
@@ -34,7 +29,6 @@ void stack_push (stack_t* box, double element)
     {
         box->capacity++;
     }
-
     STACK_CHECK
 }
 
