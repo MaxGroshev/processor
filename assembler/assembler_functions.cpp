@@ -94,7 +94,6 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             if (sscanf (commands[cur_elem].val, "%d", &value) == 1)
             {
                 fprintf (num_com, "%d %d\n", PUSH, value);
-
                 cmd_array[cmd_size] = PUSH;
                 cmd_size++;
                 cmd_array[cmd_size] = value;
@@ -120,7 +119,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR
         }
 
-        else if (strcmp (commands[cur_elem].com, "pop") == 0) // not finished ver: work in case of registers
+        else if (strcmp (commands[cur_elem].com, "pop") == 0)
         {
             if (commands[cur_elem].code_of_reg >= ax && commands[cur_elem].code_of_reg <= dx)
             {
@@ -194,6 +193,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
         else if (strcmp (commands[cur_elem].com, "\n") == 0)
         {
+            printf  ("I am here\n");
             fprintf (num_com, "\n");
         }
 
@@ -223,7 +223,6 @@ void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, in
         else if (strcmp (cur_tok, "bx") == 0) commands[cur_elem - 1].code_of_reg = bx;
         else if (strcmp (cur_tok, "cx") == 0) commands[cur_elem - 1].code_of_reg = cx;
         else if (strcmp (cur_tok, "dx") == 0) commands[cur_elem - 1].code_of_reg = dx;
-        //else    INPUT_ERR //not a loop
 
         if (strcmp (commands[cur_elem - 1].com, "push") == 0)
         {
@@ -235,8 +234,6 @@ void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, in
     {
         commands[cur_elem - 1].val = cur_tok;
     }
-
-    //else INPUT_ERR
     (*count_of_token)++;
 }
 
