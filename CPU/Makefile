@@ -1,25 +1,27 @@
+TARGET = cpu_t
 CC=g++
-
 CFLAGS = -c -std=c++11
-OBJ    = main.o stack_check.o stack_functions.o processor_functions.o stack_dump.o
-all: CPU
 
-CPU: $(OBJ)
-	$(CC) -o main $(OBJ)
+PREF_OBJ = ./obj/
 
-main.o:                main.cpp CPU.h
-stack_check.o:         stack_check.cpp CPU.h
-stack_functions.o:     stack_functions.cpp CPU.h
-processor_functions.o: processor_functions.cpp CPU.h
+SRC    = $(wildcard *.cpp)                         #include of all files with .cpp
+OBJ    = $(patsubst %.cpp, $(PREF_OBJ)%.o, $(SRC)) #turn .cpp into .o
 
+all:     $(TARGET)
 
-stack_dump.o: stack_dump.cpp int_stack.h
-	$(CC) $(CFLAGS) stack_dump.cpp -lm
+$(TARGET):  $(OBJ)
+	$(CC) -o $(TARGET) $(OBJ)
+
+$(PREF_OBJ)%.o : %.cpp                             #for whole project
+	$(CC) $(CFLAGS) $< -o $@
+
+$(PREF_OBJ)main.o : main.cpp                       #for one file
+	$(CC) $(CFLAGS) main.cpp -o $(PREF_OBJ)main.o
+
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./main
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./$(TARGET)
 
 .PHONY : clean
 clean:
-	rm -rf *.o main
-
+	rm -rf $(PREF_OBJ)*.o $(TARGET)

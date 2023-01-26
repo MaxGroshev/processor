@@ -1,22 +1,26 @@
+TARGET = asm
 CC=gcc
-
 CFLAGS = -c -std=c++11
-OBJ    = main.o assembler_functions.o
-VPATH  = -I/CPU
---include-dir =CPU
-all:     main
 
-#include makefile
+PREF_OBJ = ./obj/
 
-main:  $(OBJ)
-	$(CC) -o main $(OBJ)
+SRC    = $(wildcard *.cpp)                         #include of all files with .cpp
+OBJ    = $(patsubst %.cpp, $(PREF_OBJ)%.o, $(SRC)) #turn .cpp into .o
 
-main.o: main.cpp assembler.h
-assembler_functions.o: assembler_functions.cpp assembler.h
+all:     $(TARGET)
+
+
+
+$(TARGET):  $(OBJ)
+	$(CC) -o $(TARGET) $(OBJ)
+
+$(PREF_OBJ)%.o : %.cpp
+	$(CC) $(CFLAGS) $< -o $@
+
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./main
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./$(TARGET)
 
 .PHONY : clean
 clean:
-	rm -rf *.o main
+	rm -rf $(PREF_OBJ)*.o $(TARGET)
