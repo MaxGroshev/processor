@@ -2,11 +2,11 @@ CC=gcc
 
 CFLAGS = -c -std=c++11
 OBJ    = main.o assembler_functions.o
-VPATH  = ../CPU
-# --include-dir =CPU
+VPATH  = -I/CPU
+--include-dir =CPU
 all:     main
 
-# include ../CPU/makefile
+#include makefile
 
 main:  $(OBJ)
 	$(CC) -o main $(OBJ)
