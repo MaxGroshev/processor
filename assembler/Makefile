@@ -1,6 +1,6 @@
 CC=gcc
 
-CFLAGS = -c
+CFLAGS = -c -std=c++11
 OBJ    = main.o assembler_functions.o
 VPATH  = ../CPU
 # --include-dir =CPU
@@ -13,8 +13,6 @@ main:  $(OBJ)
 
 main.o: main.cpp assembler.h
 assembler_functions.o: assembler_functions.cpp assembler.h
-
-
 
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./main

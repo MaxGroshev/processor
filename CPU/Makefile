@@ -1,6 +1,6 @@
 CC=g++
 
-CFLAGS = -c
+CFLAGS = -c -std=c++11
 OBJ    = main.o stack_check.o stack_functions.o processor_functions.o stack_dump.o
 all: CPU
 

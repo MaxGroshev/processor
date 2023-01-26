@@ -12,15 +12,18 @@
 
 enum code_of_fails
 {
-    OUT_OF_STACK  = -3,
-    WRONG_INPUT   = -2,
-    ERR_NULL_DATA = -1,
-    STACK_IS_OKEY =  0,
+    HASH_ERROR     = -5,
+    CANARY_IS_DEAD = -4,
+    OUT_OF_STACK   = -3,
+    WRONG_INPUT    = -2,
+    ERR_NULL_DATA  = -1,
+    STACK_IS_OKEY  =  0,
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------
 
 typedef int type_of_elem;
+const int   CANARY_VAL = 0x10101010;
 
 //--------------------------------------------------------------------------------
 
@@ -29,6 +32,8 @@ struct stack_t
     type_of_elem* data;
     size_t        counter;
     size_t        capacity;
+    size_t        hash_data;
+    size_t        hash_counter;
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------

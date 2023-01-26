@@ -16,11 +16,14 @@ char* read_com_asm (FILE* word_com)
 
 struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_prog)
 {
-    size_t token_mem = 10;
+    size_t token_mem   = 10;
+    size_t num_of_line = 0;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
     MY_ASSERT (commands != NULL);
+
     char*  cur_tok  = strtok (asm_prog, " \r\n\t");
     MY_ASSERT (cur_tok != NULL);
+    //if ((int)*(cur_tok - 1) == '\n') num_of_line++;
     commands[0].com = cur_tok;
     for (int cur_elem = 1; cur_tok != NULL; cur_elem++)
     {
@@ -35,11 +38,13 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
         if ((strcmp (commands[cur_elem - 1].com, "push") == 0) || (strcmp (commands[cur_elem - 1].com, "pop") == 0))
         {
-            push_def (commands, cur_tok, count_of_token, cur_elem);
+            //if ((int)*(cur_tok - 1) == '\n') num_of_line++;
+            push_def (commands, cur_tok, count_of_token, &num_of_line, cur_elem);
         }
 
         else if ((strchr (commands[cur_elem - 1].com, 'j') != NULL) || (strcmp (commands[cur_elem - 1].com, "call") == 0))
         {
+           // if ((int)*(cur_tok - 1) == '\n') num_of_line++;
             cur_tok = strtok (NULL, " \r\n\t");
             commands[cur_elem - 1].label = cur_tok;
             (*count_of_token)++;
@@ -47,6 +52,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
         else if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[cur_elem - 1].com, 'j') == NULL) && (strcmp (commands[cur_elem - 1].com, "call") != 0))
         {
+            //if ((int)*(cur_tok - 2) == '\n') num_of_line++;
             int num_of_label = 0;
             int res = sscanf (cur_tok, ":%d", &num_of_label);
             labels[num_of_label] = *count_of_token;
@@ -56,14 +62,15 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
         cur_tok = strtok (NULL, " \r\n\t");
         if (cur_tok != NULL)
         {
+           // if ((int)*(cur_tok - 1) == '\n') num_of_line++;
             commands[cur_elem].com = cur_tok;
             (*count_of_com)++;
             (*count_of_token)++;
         }
 
+
         else
         {
-
             break;
         }
 
@@ -97,7 +104,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = value;
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strcmp (commands[cur_elem].com, "in") == 0)
@@ -115,7 +122,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[cur_elem].code_of_reg;
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strcmp (commands[cur_elem].com, "pop") == 0)
@@ -127,7 +134,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[cur_elem].code_of_reg;
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strchr (commands[cur_elem].com, 'j') != NULL)
@@ -145,7 +152,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = labels[num_of_label];
             }
-            else INPUT_ERR
+            //else INPUT_ERR
         }
 
         else if (strcmp (commands[cur_elem].com, "ret") == 0)
@@ -201,7 +208,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_size--;
             continue;
         }
-        else INPUT_ERR
+        //else INPUT_ERR
     }
 
     fprintf(num_com, "------End of list of commands------\n");
@@ -212,15 +219,18 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
 //========================================================================================================================
 
-void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, int cur_elem)
+void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, size_t* num_of_line, int cur_elem)
 {
+    //(*num_of_line)++;
     cur_tok = strtok (NULL, " \r\n\t");
     if (strchr (cur_tok, 'x') != NULL)
     {
+
         if      (strcmp (cur_tok, "ax") == 0) commands[cur_elem - 1].code_of_reg = ax;
         else if (strcmp (cur_tok, "bx") == 0) commands[cur_elem - 1].code_of_reg = bx;
         else if (strcmp (cur_tok, "cx") == 0) commands[cur_elem - 1].code_of_reg = cx;
         else if (strcmp (cur_tok, "dx") == 0) commands[cur_elem - 1].code_of_reg = dx;
+        else INPUT_ERR
 
         if (strcmp (commands[cur_elem - 1].com, "push") == 0)
         {
