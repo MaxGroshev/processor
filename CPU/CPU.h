@@ -1,4 +1,5 @@
 #include "int_stack.h"
+#include "RAM_functions.h"
 
 static const size_t count_of_reg = 4;
 
@@ -10,6 +11,7 @@ struct processor
     struct stack_t box;      // stack with data
     struct stack_t func_ret; // stack with addreses of returning
     struct stat stat_of_bin; // statistic of file the file with bin commands
+    struct RAM T_RAM;
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------------

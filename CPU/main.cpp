@@ -3,6 +3,7 @@
 int main()
 {
     struct processor cpu = {};
+    RAM_init (&cpu.T_RAM);
     memset (cpu.registers, -1, count_of_reg * sizeof (int));
 
     stack_init (&cpu.box, &cpu.func_ret);
