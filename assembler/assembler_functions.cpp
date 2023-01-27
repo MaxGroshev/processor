@@ -118,6 +118,19 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR
         }
 
+        else if (strcmp (commands[cur_elem].com, "pushm") == 0)
+        {
+            if (sscanf (commands[cur_elem].val, "[%d", &value) == 1)
+            {
+                printf ("I am here\n");
+                fprintf (num_com, "%d %d\n", PUSHM, value);
+                cmd_array[cmd_size] = PUSHM;
+                cmd_size++;
+                cmd_array[cmd_size] = value;
+            }
+            else INPUT_ERR
+        }
+
         else if (strcmp (commands[cur_elem].com, "pop") == 0)
         {
             if (commands[cur_elem].code_of_reg >= ax && commands[cur_elem].code_of_reg <= dx)
@@ -226,6 +239,17 @@ void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, si
         if (strcmp (commands[cur_elem - 1].com, "push") == 0)
         {
             commands[cur_elem - 1].com = (char*) "pushr";
+        }
+    }
+
+    else if ((strchr (cur_tok, '[') != NULL) && (strchr (cur_tok, ']') != NULL))
+    {
+        commands[cur_elem - 1].val = cur_tok;
+        printf ("%s\n", commands[cur_elem - 1].val);
+
+        if (strcmp (commands[cur_elem - 1].com, "push") == 0)
+        {
+            commands[cur_elem - 1].com = (char*) "pushm";
         }
     }
 

@@ -1,21 +1,21 @@
-TARGET = cpu_t
+TARGET   = cpu_t
 CC=g++
-CFLAGS = -c -std=c++11
+CFLAGS   = -c -std=c++11
 
 PREF_OBJ = ./obj/
 
-SRC    = $(wildcard *.cpp)                         #include of all files with .cpp
-OBJ    = $(patsubst %.cpp, $(PREF_OBJ)%.o, $(SRC)) #turn .cpp into .o
+SRC      = $(wildcard *.cpp)                         #include of all files with .cpp
+OBJ      = $(patsubst %.cpp, $(PREF_OBJ)%.o, $(SRC)) #turn .cpp into .o
 
 all:     $(TARGET)
 
 $(TARGET):  $(OBJ)
 	$(CC) -o $(TARGET) $(OBJ)
 
-$(PREF_OBJ)%.o : %.cpp                             #for whole project
+$(PREF_OBJ)%.o : %.cpp                               #for whole project
 	$(CC) $(CFLAGS) $< -o $@
 
-$(PREF_OBJ)main.o : main.cpp                       #for one file
+$(PREF_OBJ)main.o : main.cpp                         #for one file
 	$(CC) $(CFLAGS) main.cpp -o $(PREF_OBJ)main.o
 
 

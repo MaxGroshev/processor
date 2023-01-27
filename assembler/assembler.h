@@ -34,7 +34,8 @@ enum code_of_com
     DIV   = 6,
     SQRT  = 7,
     PUSHR = 11,
-    POP   = 12,
+    PUSHM = 12,
+    POP   = 13,
     JMP   = 20,  //jmp without condition
     JB    = 21,  // <
     JBE   = 22,  // <=
