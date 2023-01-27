@@ -28,7 +28,14 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
             case PUSHM:
                 i++;
                 elem = code_of_com[i];
+                MY_ASSERT  (elem <= cpu->T_RAM.capacity);
                 stack_push (box, cpu->T_RAM.data[i]);
+                break;
+
+            case PUSHRM:
+                i++;
+                code_of_reg = code_of_com[i];
+                stack_push (box, cpu->T_RAM.data[(int)cpu->registers[code_of_reg]]);
                 break;
 
             case POP:

@@ -17,7 +17,6 @@ char* read_com_asm (FILE* word_com)
 struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_prog)
 {
     size_t token_mem = 10;
-    size_t num_of_line = 0;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
     MY_ASSERT (commands != NULL);
 
@@ -73,7 +72,63 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
     (*count_of_token)++;
     return commands;
 }
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, size_t* count_of_com, int cur_elem)
+{
+    cur_tok = strtok (NULL, " \r\n\t");
+    if ((strchr (cur_tok, 'x') != NULL) || (strchr (cur_tok, '[') != NULL))
+    {
+        commands[cur_elem - 1].code_of_reg = register_def (cur_tok);
+
+        if ((strchr (cur_tok, '[') != NULL) && (strchr (cur_tok, ']') != NULL)) //make awful push_def better
+        {
+            commands[cur_elem - 1].val = cur_tok;
+            printf ("%s\n", commands[cur_elem - 1].val);
+
+            if (strcmp (commands[cur_elem - 1].com, "push") == 0)
+            {
+                commands[cur_elem - 1].com = (char*) "pushrm";
+            }
+        }
+
+        else if (strcmp (commands[cur_elem - 1].com, "push") == 0)
+        {
+            commands[cur_elem - 1].com = (char*) "pushr";
+        }
+    }
+
+    else if ((strchr (cur_tok, '[') != NULL) && (strchr (cur_tok, ']') != NULL))
+    {
+        commands[cur_elem - 1].val = cur_tok;
+        printf ("%s\n", commands[cur_elem - 1].val);
+
+        if (strcmp (commands[cur_elem - 1].com, "push") == 0)
+        {
+            commands[cur_elem - 1].com = (char*) "pushm";
+        }
+    }
+
+    else
+    {
+        commands[cur_elem - 1].val = cur_tok;
+    }
+    (*count_of_token)++;
+}
+
 //-----------------------------------------------------------------------------------------------------------------------------
+
+int register_def (char* cur_tok)
+{
+    if      (strstr (cur_tok, "ax") != 0) return ax;
+    else if (strstr (cur_tok, "bx") != 0) return bx;
+    else if (strstr (cur_tok, "cx") != 0) return cx;
+    else if (strstr (cur_tok, "dx") != 0) return dx;
+    else    return -1;
+}
+
+//===============================================================================================================================
 
 void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* asm_prog)
 {
@@ -90,7 +145,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         int code_of_reg = -1;
         if (strcmp (commands[cur_elem].com, "push") == 0)
         {
-            if (sscanf (commands[cur_elem].val, "%d", &value) == 1)
+            if ((strchr (commands[cur_elem].val, ']') == NULL) && (sscanf (commands[cur_elem].val, "%d", &value) == 1))
             {
                 fprintf (num_com, "%d %d\n", PUSH, value);
                 cmd_array[cmd_size] = PUSH;
@@ -106,7 +161,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_array[cmd_size] = IN;
         }
 
-        else if (strcmp (commands[cur_elem].com, "pushr") == 0)
+        else if ((strcmp (commands[cur_elem].com, "pushr") == 0) && (strchr (commands[cur_elem].com, '[') == NULL) && (strchr (commands[cur_elem].com, ']') == NULL))
         {
             if (commands[cur_elem].code_of_reg >= ax && commands[cur_elem].code_of_reg <= dx)
             {
@@ -122,11 +177,23 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
         {
             if (sscanf (commands[cur_elem].val, "[%d", &value) == 1)
             {
-                printf ("I am here\n");
+                printf ("%s", commands[cur_elem].val);
                 fprintf (num_com, "%d %d\n", PUSHM, value);
                 cmd_array[cmd_size] = PUSHM;
                 cmd_size++;
                 cmd_array[cmd_size] = value;
+            }
+            else INPUT_ERR
+        }
+
+        else if (strcmp (commands[cur_elem].com, "pushrm") == 0)
+        {
+            if (commands[cur_elem].code_of_reg >= ax && commands[cur_elem].code_of_reg <= dx)
+            {
+                fprintf (num_com, "%d %d\n", PUSHRM, commands[cur_elem].code_of_reg);
+                cmd_array[cmd_size] = PUSHRM;
+                cmd_size++;
+                cmd_array[cmd_size] = commands[cur_elem].code_of_reg;
             }
             else INPUT_ERR
         }
@@ -223,44 +290,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
     fclose (num_com_bin);
 }// make define with names of commands or array with name
 
-//========================================================================================================================
-
-void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, size_t* count_of_com, int cur_elem)
-{
-    cur_tok = strtok (NULL, " \r\n\t");
-    if (strchr (cur_tok, 'x') != NULL)
-    {
-
-        if      (strcmp (cur_tok, "ax") == 0) commands[cur_elem - 1].code_of_reg = ax;
-        else if (strcmp (cur_tok, "bx") == 0) commands[cur_elem - 1].code_of_reg = bx;
-        else if (strcmp (cur_tok, "cx") == 0) commands[cur_elem - 1].code_of_reg = cx;
-        else if (strcmp (cur_tok, "dx") == 0) commands[cur_elem - 1].code_of_reg = dx;
-
-        if (strcmp (commands[cur_elem - 1].com, "push") == 0)
-        {
-            commands[cur_elem - 1].com = (char*) "pushr";
-        }
-    }
-
-    else if ((strchr (cur_tok, '[') != NULL) && (strchr (cur_tok, ']') != NULL))
-    {
-        commands[cur_elem - 1].val = cur_tok;
-        printf ("%s\n", commands[cur_elem - 1].val);
-
-        if (strcmp (commands[cur_elem - 1].com, "push") == 0)
-        {
-            commands[cur_elem - 1].com = (char*) "pushm";
-        }
-    }
-
-    else
-    {
-        commands[cur_elem - 1].val = cur_tok;
-    }
-    (*count_of_token)++;
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------
 
 void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array, int* cmd_size, int cur_elem)
 {

@@ -18,26 +18,27 @@ struct processor
 
 enum code_of_com
 {
-    HLT   = 0,
-    PUSH  = 1,
-    IN    = 2,
-    ADD   = 3,
-    MUL   = 4,
-    OUT   = 5,
-    DIV   = 6,
-    SQRT  = 7,
-    PUSHR = 11,
-    PUSHM = 12,
-    POP   = 13,
-    JMP   = 20,  // jmp without condition
-    JB    = 21,  // <
-    JBE   = 22,  // <=
-    JA    = 23,  // >
-    JAE   = 24,  // >=
-    JE    = 25,  // ==
-    JNE   = 26,  // !=
-    CALL  = 30,
-    RET   = 31,
+    HLT    = 0,
+    PUSH   = 1,   //classic push
+    IN     = 2,
+    ADD    = 3,
+    MUL    = 4,
+    OUT    = 5,
+    DIV    = 6,
+    SQRT   = 7,
+    PUSHR  = 11,  //push of register
+    PUSHM  = 12,  //push from RAM
+    PUSHRM = 13,  //push from RAM from cell with num of reg
+    POP    = 14,
+    JMP    = 20,  // jmp without condition
+    JB     = 21,  // <
+    JBE    = 22,  // <=
+    JA     = 23,  // >
+    JAE    = 24,  // >=
+    JE     = 25,  // ==
+    JNE    = 26,  // !=
+    CALL   = 30,
+    RET    = 31,
 };
 
 //--------------------------------------------------------------------------------------
