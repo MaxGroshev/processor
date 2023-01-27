@@ -6,6 +6,7 @@
 #include <string.h>
 #include <math.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 #include "input_err.h"
 #include "../my_ASSERT.h"
 

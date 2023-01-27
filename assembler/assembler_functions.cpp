@@ -78,7 +78,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 void push_def (struct token* commands, char* cur_tok, size_t* count_of_token, size_t* count_of_com, int cur_elem)
 {
     cur_tok = strtok (NULL, " \r\n\t");
-    if ((strchr (cur_tok, 'x') != NULL) || (strchr (cur_tok, '[') != NULL))
+    if (strchr (cur_tok, 'x') != NULL)
     {
         commands[cur_elem - 1].code_of_reg = register_def (cur_tok);
 
@@ -152,7 +152,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = value;
             }
-            else INPUT_ERR
+            else INPUT_ERR (commands[cur_elem].val)
         }
 
         else if (strcmp (commands[cur_elem].com, "in") == 0)
@@ -170,7 +170,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[cur_elem].code_of_reg;
             }
-            else INPUT_ERR
+            else INPUT_ERR (commands[cur_elem].com)
         }
 
         else if (strcmp (commands[cur_elem].com, "pushm") == 0)
@@ -183,7 +183,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = value;
             }
-            else INPUT_ERR
+            else INPUT_ERR (commands[cur_elem].val)
         }
 
         else if (strcmp (commands[cur_elem].com, "pushrm") == 0)
@@ -195,7 +195,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[cur_elem].code_of_reg;
             }
-            else INPUT_ERR
+            else INPUT_ERR (commands[cur_elem].com)
         }
 
         else if (strcmp (commands[cur_elem].com, "pop") == 0)
@@ -207,7 +207,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = commands[cur_elem].code_of_reg;
             }
-            else INPUT_ERR
+            else INPUT_ERR (commands[cur_elem].com)
         }
 
         else if (strchr (commands[cur_elem].com, 'j') != NULL)
@@ -225,7 +225,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 cmd_size++;
                 cmd_array[cmd_size] = labels[num_of_label];
             }
-            else INPUT_ERR
+            else INPUT_ERR (commands[cur_elem].label)
         }
 
         else if (strcmp (commands[cur_elem].com, "ret") == 0)
@@ -281,7 +281,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             cmd_size--;
             continue;
         }
-        else INPUT_ERR
+        else INPUT_ERR(commands[cur_elem].com)
     }
 
     fprintf(num_com, "------End of list of commands------\n");
@@ -304,7 +304,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 
     else if (strcmp (commands[cur_elem].com, "jb") == 0)
@@ -316,7 +316,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 
     else if (strcmp (commands[cur_elem].com, "jbe") == 0)
@@ -328,7 +328,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 
     else if (strcmp (commands[cur_elem].com, "ja") == 0)
@@ -340,7 +340,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 
     else if (strcmp (commands[cur_elem].com, "jae") == 0)
@@ -352,7 +352,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 
     else if (strcmp (commands[cur_elem].com, "je") == 0)
@@ -364,7 +364,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 
     else if (strcmp (commands[cur_elem].com, "jne") == 0)
@@ -376,6 +376,6 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
-        else INPUT_ERR
+        else INPUT_ERR (commands[cur_elem].label)
     }
 }
