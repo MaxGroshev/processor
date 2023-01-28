@@ -16,11 +16,12 @@ char* read_com_asm (FILE* word_com)
 
 struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* labels, char* asm_prog)
 {
+    int line = 0;
     size_t token_mem = 10;
     struct token* commands = (struct token*) calloc (token_mem, sizeof (struct token));
     MY_ASSERT (commands != NULL);
 
-    char*  cur_tok  = strtok (asm_prog, " \r\n\t");
+    char*  cur_tok  = strtok (asm_prog, " \n");
     MY_ASSERT (cur_tok != NULL);
     commands[0].com = cur_tok;
     for (int cur_elem = 1; cur_tok != NULL; cur_elem++)
@@ -41,7 +42,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
 
         else if ((strchr (commands[cur_elem - 1].com, 'j') != NULL) || (strcmp (commands[cur_elem - 1].com, "call") == 0))
         {
-            cur_tok = strtok (NULL, " \r\n\t");
+            cur_tok = strtok (NULL, " \n");
             commands[cur_elem - 1].label = cur_tok;
             (*count_of_token)++;
         }
@@ -49,17 +50,22 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
         else if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[cur_elem - 1].com, 'j') == NULL) && (strcmp (commands[cur_elem - 1].com, "call") != 0))
         {
             int num_of_label = 0;
-            int res = sscanf (cur_tok, ":%d", &num_of_label);
+            sscanf (cur_tok, ":%d", &num_of_label);
             labels[num_of_label] = *count_of_token;
             (*count_of_token)--;
+
         }
 
-        cur_tok = strtok (NULL, " \r\n\t");
+        cur_tok = strtok (NULL, " \n");
+
         if (cur_tok != NULL)
         {
             commands[cur_elem].com = cur_tok;
             (*count_of_com)++;
             (*count_of_token)++;
+            line++;
+            commands[cur_elem].num_of_line = line;
+
         }
 
         else
@@ -130,6 +136,7 @@ int register_def (char* cur_tok)
 
 //===============================================================================================================================
 
+//#ifdef COMMENT
 void translate_com (struct token* commands, const size_t count_of_com, const size_t count_of_token, int* labels, char* asm_prog)
 {
     FILE*      num_com     = fopen ("../test.code", "w");
@@ -155,7 +162,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].val);
         }
 
-        else if (strcmp (commands[cur_elem].com, "in") == 0)
+        else if (strcmp (commands[cur_elem].com, "in\r") == 0)
         {
             fprintf (num_com, "%d\n", IN);
             cmd_array[cmd_size] = IN;
@@ -228,52 +235,52 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label);
         }
 
-        else if (strcmp (commands[cur_elem].com, "ret") == 0)
+        else if (strcmp (commands[cur_elem].com, "ret\r") == 0)
         {
             fprintf (num_com, "%d\n", RET);
             cmd_array[cmd_size] = RET;
         }
 
-        else if (strcmp (commands[cur_elem].com, "add") == 0)
+        else if (strcmp (commands[cur_elem].com, "add\r") == 0)
         {
             fprintf (num_com, "%d\n", ADD);
             cmd_array[cmd_size] = ADD;
         }
 
-        else if (strcmp (commands[cur_elem].com, "mul") == 0)
+        else if (strcmp (commands[cur_elem].com, "mul\r") == 0)
         {
             fprintf (num_com, "%d\n", MUL);
             cmd_array[cmd_size] = MUL;
         }
 
-        else if (strcmp (commands[cur_elem].com, "div") == 0)
+        else if (strcmp (commands[cur_elem].com, "div\r") == 0)
         {
             fprintf (num_com, "%d\n", DIV);
             cmd_array[cmd_size] = DIV;
         }
 
-        else if (strcmp (commands[cur_elem].com, "out") == 0)
+        else if (strcmp (commands[cur_elem].com, "out\r") == 0)
         {
             fprintf (num_com, "%d\n", OUT);
             cmd_array[cmd_size] = OUT;
         }
 
-        else if (strcmp (commands[cur_elem].com, "sqrt") == 0)
+        else if (strcmp (commands[cur_elem].com, "sqrt\r") == 0)
         {
             fprintf (num_com, "%d\n", SQRT);
             cmd_array[cmd_size] = SQRT;
         }
 
-        else if (strcmp (commands[cur_elem].com, "hlt") == 0)
+        else if (strcmp (commands[cur_elem].com, "hlt\r") == 0)
         {
             fprintf (num_com, "%d\n", HLT);
             cmd_array[cmd_size] = HLT;
         }
 
-        else if (strcmp (commands[cur_elem].com, "\n") == 0)
+        else if (strcmp (commands[cur_elem].com, "\r") == 0)
         {
-            printf  ("I am here\n");
             fprintf (num_com, "\n");
+            cmd_array[cmd_size] = ENTER;
         }
 
         else if (strchr (commands[cur_elem].com, ':') != NULL)
@@ -379,3 +386,4 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
         else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label)
     }
 }
+//#endif

@@ -1,6 +1,7 @@
 #pragma once
 #define DEBUG
-#define NAME_OF_PROG "../fact.asm"
+//#define COMMENT
+#define NAME_OF_PROG "../kvadratka.asm"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,11 +15,16 @@ struct stat;
 
 //-------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
 struct token
 {
     char*  com;
     char*  val;
     int    code_of_reg;
+    int    num_of_line;
     char*  label;
 };
 
@@ -47,6 +53,7 @@ enum code_of_com
     JNE    = 26,  // !=
     CALL   = 30,
     RET    = 31,
+    ENTER  = 40,
 };
 
 enum registers
