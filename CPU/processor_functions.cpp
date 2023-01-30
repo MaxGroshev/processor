@@ -146,6 +146,8 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case LABEL:
+                printf ("%d\n", i);
+                i++;
                 break;
 
             case HLT:

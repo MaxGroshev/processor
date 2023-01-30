@@ -52,8 +52,8 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             int num_of_label = 0;
             sscanf (cur_tok, ":%d", &num_of_label);
             labels[num_of_label] = *count_of_token;
-            (*count_of_token);
-
+            (*count_of_token)++;
+            //(*count_of_token)++;
         }
 
         cur_tok = strtok (NULL, " \n");
@@ -285,8 +285,12 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
         else if (strchr (commands[cur_elem].com, ':') != NULL)
         {
-            fprintf (num_com, ":\n");
+            int num_of_label = 0;
+            sscanf (commands[cur_elem].com, ":%d", &num_of_label) == 1;
+            fprintf (num_com, ":%d\n", num_of_label);
             cmd_array[cmd_size] = LABEL;
+            cmd_size++;
+            cmd_array[cmd_size] = num_of_label;
             continue;
         }
         else INPUT_ERR("%s", commands[cur_elem].com)
