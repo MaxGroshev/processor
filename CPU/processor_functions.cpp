@@ -65,7 +65,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case JMP:
-                i++;
+                i += 2; //+2 want to skip name of label
                 i = code_of_com[i];
                 i--;
                 break;
@@ -73,66 +73,66 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
             case JB:
                 if (stack_pop (box) < stack_pop (box))
                 {
-                    i++;
+                    i += 2;
                     i = code_of_com[i];
                     i--;
                 }
-                else i++;
+                else i += 2;
                 break;
 
             case JBE:
                 if (stack_pop (box) <= stack_pop (box))
                 {
-                    i++;
+                    i += 2;
                     i = code_of_com[i];
                     i--;
                 }
-                else i++;
+                else i += 2;
                 break;
 
             case JA:
                 if (stack_pop (box) > stack_pop (box))
                 {
-                    i++;
+                    i += 2;
                     i = code_of_com[i];
                     i--;
                 }
-                else i++;
+                else i += 2;
                 break;
 
             case JAE:
                 if (stack_pop (box) >= stack_pop (box))
                 {
-                    i++;
+                    i += 2;
                     i = code_of_com[i];
                     i--;
                 }
-                else i++;
+                else i += 2;
                 break;
 
             case JE:
                 if (stack_pop (box) == stack_pop (box))
                 {
-                    i++;
+                    i += 2;
                     i = code_of_com[i];
                     i--;
                 }
-                else i++;
+                else i += 2;
                 break;
 
             case JNE:
                 if (stack_pop (box) != stack_pop (box))
                 {
-                    i++;
+                    i += 2;
                     i = code_of_com[i];
                     i--;
                 }
-                else i++;
+                else i += 2;
                 break;
 
             case CALL:
-                stack_push (func_ret, i + 2);
-                i++;
+                stack_push (func_ret, i + 3);
+                i += 2;
                 i = code_of_com[i];
                 i--;
                 break;
@@ -146,7 +146,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                 break;
 
             case LABEL:
-                printf ("%d\n", i);
+               // printf ("%d\n", i);
                 i++;
                 break;
 

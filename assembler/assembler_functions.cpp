@@ -44,7 +44,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
         {
             cur_tok = strtok (NULL, " \n");
             commands[cur_elem - 1].label = cur_tok;
-            (*count_of_token)++;
+            (*count_of_token) += 2;
         }
 
         else if ((strchr (cur_tok, ':') != NULL) && (strchr (commands[cur_elem - 1].com, 'j') == NULL) && (strcmp (commands[cur_elem - 1].com, "call") != 0))
@@ -230,6 +230,8 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
                 fprintf (num_com, "%d :%d %d\n", CALL, num_of_label, labels[num_of_label]);
                 cmd_array[cmd_size] = CALL;
                 cmd_size++;
+                cmd_array[cmd_size] = num_of_label;
+                cmd_size++;
                 cmd_array[cmd_size] = labels[num_of_label];
             }
             else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label);
@@ -314,6 +316,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             fprintf (num_com, "%d :%d %d\n", JMP, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JMP;
             (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
+            (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
         else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label);
@@ -325,6 +329,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
         {
             fprintf (num_com, "%d :%d %d\n", JB, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JB;
+            (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
@@ -338,6 +344,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             fprintf (num_com, "%d :%d %d\n", JBE, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JBE;
             (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
+            (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
         else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label);
@@ -349,6 +357,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
         {
             fprintf (num_com, "%d :%d %d\n", JA, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JA;
+            (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
@@ -362,6 +372,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             fprintf (num_com, "%d :%d %d\n", JAE, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JAE;
             (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
+            (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
         else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label);
@@ -374,6 +386,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
             fprintf (num_com, "%d :%d %d\n", JE, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JE;
             (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
+            (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
         else INPUT_ERR ("%s %s", commands[cur_elem].com, commands[cur_elem].label);
@@ -385,6 +399,8 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
         {
             fprintf (num_com, "%d :%d %d\n", JNE, num_of_label, labels[num_of_label]);
             cmd_array[*cmd_size] = JNE;
+            (*cmd_size)++;
+            cmd_array[*cmd_size] = num_of_label;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
         }
