@@ -23,161 +23,174 @@ int disasm_com (int* code_of_com)
 {
     FILE* disasm_prog = fopen ("../disasm.asm", "w");
     MY_ASSERT (disasm_prog != NULL)
-    char* name_of_reg = (char*) calloc (1, sizeof ("ax"));
+    char* name_of_reg = (char*) calloc (10, sizeof (char));
+    MY_ASSERT (name_of_reg != NULL);
 
     int elem         = 0;
     int code_of_reg  = 0;
     int label_of_jmp = 0;
-    for (int i = 0; code_of_com[i] != HLT; i++)
+    for (int i = 1; code_of_com[i - 1] != HLT; i++)
     {
+        if (i == 1) i--;
         switch (code_of_com[i])
         {
             case PUSH:
                 i++;
                 elem = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "push %d\n", elem);
                 break;
 
             case IN:
-                write_elem ();
+                fprintf (disasm_prog, "in\n");
                 break;
 
             case PUSHR:
                 i++;
                 code_of_reg = code_of_com[i];
-                reg_def (code_of_reg, name_of_reg);
-                write_elem ();
+                reg_def (code_of_reg, &name_of_reg);
+                fprintf (disasm_prog, "push %s\n", name_of_reg);
                 break;
 
             case PUSHM:
                 i++;
                 elem = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "push [%d]\n", elem);
                 break;
 
             case PUSHRM:
                 i++;
                 code_of_reg = code_of_com[i];
-                reg_def (code_of_reg, name_of_reg);
-                write_elem ();
+                reg_def (code_of_reg, &name_of_reg);
+                fprintf (disasm_prog, "push [%s]\n", name_of_reg);
                 break;
 
             case POP:
                 i++;
                 code_of_reg = code_of_com[i];
-                reg_def (code_of_reg, name_of_reg);
-                write_elem();
+                reg_def (code_of_reg, &name_of_reg);
+                fprintf (disasm_prog, "pop %s\n", name_of_reg);
                 break;
 
             case ADD:
-                write_elem ();
+                fprintf (disasm_prog, "add\n");
                 break;
 
             case MUL:
-                write_elem ();
+                fprintf (disasm_prog, "mul\n");
                 break;
 
             case DIV:
-                write_elem ();
+                fprintf (disasm_prog, "div\n");
                 break;
 
             case SQRT:
-                write_elem ();
+                fprintf (disasm_prog, "sqrt\n");
                 break;
 
             case OUT:
-                write_elem ();
+                fprintf (disasm_prog, "out\n");
                 break;
 
             case JMP:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "jmp :%d\n", label_of_jmp);
+                i++; //to skip direction of jmp
                 break;
 
             case JB:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "jb :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case JBE:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "jbe :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case JA:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "ja :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case JAE:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "jae :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case JE:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "je :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case JNE:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "jne :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case CALL:
                 i++;
                 label_of_jmp = code_of_com[i];
-                write_elem ();
+                fprintf (disasm_prog, "call :%d\n", label_of_jmp);
+                i++;
                 break;
 
             case RET:
-                write_elem ();
+                fprintf (disasm_prog, "ret\n");
                 break;
 
             case ENTER:
-                write_elem ();
+                fprintf (disasm_prog, "\n");
+                break;
+
+            case LABEL:
+                i++;
+                label_of_jmp = code_of_com[i];
+                fprintf (disasm_prog, ":%d\n", label_of_jmp);
                 break;
 
             case HLT:
-                write_elem ();
+                fprintf (disasm_prog, "hlt\n");
                 break;
         }
     }
 
     free   (name_of_reg);
     fclose (disasm_prog);
+    return 0;
 }
 
-void reg_def (int code_of_reg, char* name_of_reg)
+void reg_def (int code_of_reg, char** name_of_reg)
 {
     switch (code_of_reg)
     {
         case ax:
-            name_of_reg = (char*)"ax";
+            strcpy (*name_of_reg, "ax");
             break;
 
         case bx:
-            name_of_reg = (char*)"bx";
+            strcpy (*name_of_reg, "bx");
             break;
 
         case cx:
-            name_of_reg = (char*)"cx";
+            strcpy (*name_of_reg, "cx");
             break;
 
         case dx:
-            name_of_reg =(char*) "dx";
+            strcpy (*name_of_reg, "dx");
             break;
     }
 }
 
-void write_elem ()
-{
-
-}

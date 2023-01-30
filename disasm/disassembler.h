@@ -34,6 +34,7 @@ enum code_of_com
     JNE    = 26,  // !=
     CALL   = 30,
     RET    = 31,
+    LABEL  = 32,
     ENTER  = 40,
 };
 
@@ -49,7 +50,7 @@ enum registers
 
 int* read_bin_file ();
 int  disasm_com    (int* code_of_com);
-void reg_def       (int code_of_reg, char* name_of_reg);
-void write_elem    ();
+void reg_def       (int code_of_reg, char** name_of_reg);
+
 
 
