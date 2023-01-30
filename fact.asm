@@ -1,4 +1,5 @@
 push 1
+
 in
 pop  ax
 push ax

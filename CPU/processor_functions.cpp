@@ -77,6 +77,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                     i = code_of_com[i];
                     i--;
                 }
+                else i++;
                 break;
 
             case JBE:
@@ -86,6 +87,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                     i = code_of_com[i];
                     i--;
                 }
+                else i++;
                 break;
 
             case JA:
@@ -95,6 +97,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                     i = code_of_com[i];
                     i--;
                 }
+                else i++;
                 break;
 
             case JAE:
@@ -104,6 +107,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                     i = code_of_com[i];
                     i--;
                 }
+                else i++;
                 break;
 
             case JE:
@@ -113,6 +117,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                     i = code_of_com[i];
                     i--;
                 }
+                else i++;
                 break;
 
             case JNE:
@@ -122,6 +127,7 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
                     i = code_of_com[i];
                     i--;
                 }
+                else i++;
                 break;
 
             case CALL:
@@ -196,4 +202,3 @@ void find_sqrt (stack_t* box, double elem)
     elem = sqrt      (elem);
     stack_push       (box, elem);
 }
-

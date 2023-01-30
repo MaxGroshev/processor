@@ -11,7 +11,7 @@ struct processor
     struct stack_t box;      // stack with data
     struct stack_t func_ret; // stack with addreses of returning
     struct stat stat_of_bin; // statistic of file the file with bin commands
-    struct RAM T_RAM;
+    struct RAM T_RAM;        // RAM
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,6 +39,7 @@ enum code_of_com
     JNE    = 26,  // !=
     CALL   = 30,
     RET    = 31,
+    LABEL  = 32,
     ENTER  = 40,
 };
 
