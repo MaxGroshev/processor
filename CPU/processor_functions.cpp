@@ -145,6 +145,9 @@ void dispatch_task (stack_t* box, stack_t* func_ret, processor* cpu, double elem
             case ENTER:
                 break;
 
+            case LABEL:
+                break;
+
             case HLT:
                 break;
         }

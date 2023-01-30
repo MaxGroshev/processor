@@ -52,7 +52,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             int num_of_label = 0;
             sscanf (cur_tok, ":%d", &num_of_label);
             labels[num_of_label] = *count_of_token;
-            (*count_of_token)--;
+            (*count_of_token);
 
         }
 
@@ -205,7 +205,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             else INPUT_ERR ("%s %d", commands[cur_elem].com, commands[cur_elem].code_of_reg);
         }
 
-        else if (strcmp (commands[cur_elem].com, "pop") == 0)
+        else if (strcmp (commands[cur_elem].com, "pop") == 0) //improve
         {
             if (commands[cur_elem].code_of_reg >= ax && commands[cur_elem].code_of_reg <= dx)
             {
@@ -227,7 +227,7 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
             int num_of_label = 0;
             if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
             {
-                fprintf (num_com, "%d %d\n", CALL, labels[num_of_label]);
+                fprintf (num_com, "%d :%d\n", CALL, labels[num_of_label]);
                 cmd_array[cmd_size] = CALL;
                 cmd_size++;
                 cmd_array[cmd_size] = labels[num_of_label];
@@ -285,7 +285,8 @@ void translate_com (struct token* commands, const size_t count_of_com, const siz
 
         else if (strchr (commands[cur_elem].com, ':') != NULL)
         {
-            cmd_size--;
+            fprintf (num_com, ":\n");
+            cmd_array[cmd_size] = LABEL;
             continue;
         }
         else INPUT_ERR("%s", commands[cur_elem].com)
@@ -306,7 +307,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JMP, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JMP, labels[num_of_label]);
             cmd_array[*cmd_size] = JMP;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
@@ -318,7 +319,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JB, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JB, labels[num_of_label]);
             cmd_array[*cmd_size] = JB;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
@@ -330,7 +331,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JBE, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JBE, labels[num_of_label]);
             cmd_array[*cmd_size] = JBE;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
@@ -342,7 +343,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JA, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JA, labels[num_of_label]);
             cmd_array[*cmd_size] = JA;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
@@ -354,7 +355,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JAE, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JAE, labels[num_of_label]);
             cmd_array[*cmd_size] = JAE;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
@@ -366,7 +367,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JE, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JE, labels[num_of_label]);
             cmd_array[*cmd_size] = JE;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
@@ -378,7 +379,7 @@ void jmp_def (FILE* num_com, struct token* commands, int* labels, int* cmd_array
     {
         if (sscanf (commands[cur_elem].label, ":%d", &num_of_label) == 1)
         {
-            fprintf (num_com, "%d %d\n", JNE, labels[num_of_label]);
+            fprintf (num_com, "%d :%d\n", JNE, labels[num_of_label]);
             cmd_array[*cmd_size] = JNE;
             (*cmd_size)++;
             cmd_array[*cmd_size] = labels[num_of_label];
