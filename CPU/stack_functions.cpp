@@ -2,8 +2,8 @@
 
 void stack_init (stack_t* box, stack_t* func_ret)
 {
-    box->capacity = 10;
-    box->data      = (type_of_elem*) calloc (box->capacity, sizeof (type_of_elem));
+    box->capacity  = 50;
+    box->data      = (type_of_elem*) calloc (box->capacity + 2, sizeof (type_of_elem));
     MY_ASSERT        (box->data != NULL);
     set_canary       (box);
     func_ret->data = (type_of_elem*) calloc (10, sizeof (type_of_elem)); //size of ret value is not more then 10
@@ -17,40 +17,29 @@ void set_canary (stack_t* box) // this name is ok or not?
 {
     if (box->counter == 0)
     {
-        box->data[box->counter] = CANARY_VAL;
+        box->data[0] = CANARY_VAL;
         box->counter++;
-        //box->data[box->capacity + 1] = CANARY_VAL;
+        box->data[box->capacity + 1] = CANARY_VAL;
     }
 
     else
     {
-        //any_stack->data[any_stack->capacity] = CANARY_VAL;
+        box->data[0] = CANARY_VAL;
+        box->data[box->capacity + 1] = CANARY_VAL;
     }
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 
-void stack_push (stack_t* box, double element)
+void stack_push (stack_t*  box, double element)
 {
     STACK_CHECK
 
-    if (box->capacity - box->counter <= 10)
+    if (box->capacity  - 2 <= box->counter)
     {
-        box->capacity *= 2;
-        printf ("%ld\n", box->capacity);
-        int* stack_resize = box->data;
-        stack_resize = (int*) realloc (box->data, (box->capacity) * sizeof (type_of_elem));
-        MY_ASSERT (stack_resize != NULL);
-        box->data = stack_resize;
-        STACK_CHECK
+        stack_resize (box);
     }
     box->data[box->counter++] = element * 100;
-
-    // if (box->capacity < box->counter)
-    // {
-    //     box->capacity++;
-    // }
     STACK_CHECK
 }
 
@@ -58,7 +47,6 @@ void stack_push (stack_t* box, double element)
 
 double stack_pop (stack_t* box)
 {
-
     box->counter--;
     double element = box->data[box->counter];
     element = element / 100;
@@ -69,6 +57,18 @@ double stack_pop (stack_t* box)
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
+
+void stack_resize (stack_t* box)
+{
+    box->capacity *= 2;
+    int* stack_resize = box->data;
+    stack_resize = (type_of_elem*) realloc (stack_resize , (box->capacity + 2 ) * sizeof (type_of_elem));
+    MY_ASSERT (stack_resize != NULL);
+    box->data = stack_resize;
+    set_canary(box);
+}
+
+//---------------------------------------------------------------------------------------------------------------------------
 
 void stack_delete (stack_t* box, stack_t* func_ret)
 {

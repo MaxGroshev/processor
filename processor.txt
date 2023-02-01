@@ -1,110 +1,23 @@
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 43
+ERROR: Canary at the beginning of stack is dead
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_pop, LINE 54
+ERROR: Canary at the beginning of stack is dead
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 36
+ERROR: Canary at the beginning of stack is dead
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 36
+ERROR: Canary at the beginning of stack is dead
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 36
+ERROR: Canary at the beginning of stack is dead
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 36
+ERROR: Canary at the beginning of stack is dead
+ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 36
+ERROR: Canary at the beginning of stack is dead
   0 [269488144]
   1 [100]
   2 [125269879] - Current cell
   3 [125269879]
   4 [125269879]
   5 [125269879]
-  6 [0]
------End of the current print-----
-  0 [269488144]
------End of the current print-----
-  0 [269488144]
------End of the current print-----
-ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 44
-ERROR: Memomy pointer point to NULL
-  0 [269488144]
-  1 [100]
-  2 [125269879] - Current cell
-  3 [125269879]
-  4 [125269879]
-  5 [125269879]
-  6 [0]
-  7 [0]
-  8 [0]
-  9 [0]
- 10 [0]
- 11 [269488144]
- 12 [0]
- 13 [0]
- 14 [0]
- 15 [0]
- 16 [0]
- 17 [0]
- 18 [112]
- 19 [0]
- 20 [112]
------End of the current print-----
-  0 [269488144]
-  1 [100]
-  2 [125269879] - Current cell
-  3 [125269879]
-  4 [125269879]
-  5 [125269879]
-  6 [0]
-  7 [0]
-  8 [0]
-  9 [0]
- 10 [49]
- 11 [0]
- 12 [125269879]
- 13 [0]
- 14 [0]
- 15 [0]
- 16 [0]
- 17 [0]
- 18 [0]
- 19 [0]
- 20 [0]
------End of the current print-----
-  0 [269488144]
-  1 [100]
-  2 [125269879] - Current cell
-  3 [125269879]
-  4 [125269879]
-  5 [125269879]
-  6 [0]
-  7 [0]
-  8 [0]
-  9 [0]
- 10 [0]
- 11 [0]
- 12 [0]
- 13 [0]
- 14 [0]
- 15 [0]
- 16 [0]
- 17 [0]
- 18 [112]
- 19 [0]
- 20 [112]
------End of the current print-----
-  0 [269488144]
-  1 [100]
-  2 [125269879] - Current cell
-  3 [125269879]
-  4 [125269879]
-  5 [125269879]
-  6 [0]
-  7 [0]
-  8 [0]
-  9 [0]
- 10 [0]
- 11 [0]
- 12 [0]
- 13 [0]
- 14 [0]
- 15 [0]
- 16 [0]
- 17 [0]
- 18 [112]
- 19 [0]
------End of the current print-----
-  0 [269488144]
-  1 [100]
-  2 [125269879] - Current cell
-  3 [125269879]
-  4 [125269879]
-  5 [0]
   6 [0]
   7 [0]
   8 [0]
@@ -119,29 +32,34 @@ ERROR: Memomy pointer point to NULL
  17 [0]
  18 [0]
  19 [0]
+ 20 [0]
+ 21 [0]
+ 22 [0]
+ 23 [0]
+ 24 [0]
+ 25 [0]
+ 26 [0]
+ 27 [0]
+ 28 [0]
+ 29 [0]
+ 30 [0]
+ 31 [0]
+ 32 [0]
+ 33 [0]
+ 34 [0]
+ 35 [0]
+ 36 [0]
+ 37 [0]
+ 38 [0]
+ 39 [0]
+ 40 [0]
+ 41 [0]
+ 42 [0]
+ 43 [0]
+ 44 [0]
+ 45 [0]
+ 46 [0]
+ 47 [0]
+ 48 [0]
+ 49 [0]
 -----End of the current print-----
-ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 46
-ERROR: Memomy pointer point to NULL
-  0 [269488144]
-  1 [100]
-  2 [125269879] - Current cell
-  3 [125269879]
-  4 [125269879]
-  5 [0]
-  6 [0]
-  7 [0]
-  8 [0]
-  9 [0]
- 10 [100]
- 11 [11]
- 12 [100]
- 13 [1]
- 14 [0]
- 15 [26]
- 16 [8]
- 17 [38]
- 18 [11]
- 19 [101]
------End of the current print-----
-ERROR IN FILE stack_functions.cpp, FUNCTION stack_push, LINE 46
-ERROR: Memomy pointer point to NULL

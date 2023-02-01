@@ -25,6 +25,22 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
             case ERR_NULL_DATA:
                 fprintf (print_fail,"ERROR: Memomy pointer point to NULL\n");
                 break;
+
+            case CANARY_A_IS_DEAD:
+                fprintf (print_fail,"ERROR: Canary at the beginning of stack is dead\n");
+                print_stack = 1;
+                break;
+
+            case CANARY_B_IS_DEAD:
+                fprintf (print_fail,"ERROR: Canary at the end of data is dead\n");
+                print_stack = 1;
+                break;
+
+            case CANARY_C_IS_DEAD:
+                fprintf (print_fail,"ERROR: Canary at the end of stack is dead\n");
+                print_stack = 1;
+                break;
+
         }
     }
 
@@ -35,6 +51,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
             fprintf (print_fail,"%3d [%d] - Current cell\n", i, box->data[i]);
             continue;
         }
+
         fprintf(print_fail,"%3d [%d]\n", i, box->data[i]);
 
         if (i + 1 == box->capacity)
