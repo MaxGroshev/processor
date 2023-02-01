@@ -39,6 +39,7 @@ struct stack_t
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 void   stack_init   (stack_t* box, stack_t* func_ret);
+void   set_canary   (stack_t* box); //include stack_t func_ret
 void   stack_push   (stack_t* box, double element);
 double stack_pop    (stack_t* box);
 int    stack_check  (stack_t* box);

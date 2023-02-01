@@ -9,7 +9,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
     {
         fprintf (stderr,"Error of running program, check processor.txt! \007\n");
         fprintf (print_fail,"ERROR IN FILE %s, FUNCTION %s, LINE %d\n", DUR_FILE, FUNCTION, LINE);
-        switch (status)
+        switch  (status)
         {
             case OUT_OF_STACK:
                 fprintf (print_fail,"ERROR: Request to cell thar does not belong to stack\n");
@@ -28,7 +28,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
         }
     }
 
-    for (int i = 0; i < box->capacity && print_stack == 1; i++)
+    for (int i = 0; (i < box->capacity) && (print_stack == 1); i++)
     {
         if (i == box->counter)
         {
@@ -36,6 +36,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
             continue;
         }
         fprintf(print_fail,"%3d [%d]\n", i, box->data[i]);
+
         if (i + 1 == box->capacity)
         {
             fprintf (print_fail,"-----End of the current print-----\n");
