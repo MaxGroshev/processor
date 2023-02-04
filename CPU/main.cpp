@@ -11,7 +11,7 @@ int main()
     double elem = 0;
     dispatch_task (&cpu.box, &cpu.func_ret, &cpu, elem);
 
-    stack_dump   (&cpu.box, __FILE__, __FUNCTION__, __LINE__, 1);
+    stack_print  (&cpu.box, 1);
     stack_delete (&cpu.box, &cpu.func_ret);
     RAM_clean    (&cpu.T_RAM);
     return 0;

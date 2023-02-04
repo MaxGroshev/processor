@@ -17,21 +17,26 @@ int stack_check (stack_t* box)
         return OUT_OF_STACK;
     }
 
-//     if (box->data[0] != CANARY_VAL)
-//     {
-//
-//         return CANARY_A_IS_DEAD;
-//     }
+    if (box->canary_a != CANARY_VAL)
+    {
 
-//     if (box->canary_b != CANARY_VAL)
-//     {
-//         return CANARY_B_IS_DEAD;
-//     }
-//
-//     if (box->canary_c != CANARY_VAL)
-//     {
-//         return CANARY_C_IS_DEAD;
-//     }
+        return CANARY_A_IS_DEAD;
+    }
+
+    if (box->canary_b != CANARY_VAL)
+    {
+        return CANARY_B_IS_DEAD;
+    }
+
+    if (box->data[0] != CANARY_VAL)
+    {
+        return START_DATA_CANARY_IS_DEAD;
+    }
+
+    if (box->data[box->capacity] != CANARY_VAL)
+    {
+        return END_DATA_CANARY_IS_DEAD;
+    }
 
 
     return STACK_IS_OKEY;
