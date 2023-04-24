@@ -23,7 +23,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
                 break;
 
             case ERR_NULL_DATA:
-                fprintf (print_fail,"ERROR: Memomy pointer point to NULL\n");
+                fprintf (print_fail,"ERROR: Memory pointer point to NULL\n");
                 print_choice = 1;
                 break;
 
@@ -33,7 +33,7 @@ int stack_dump (stack_t* box, const char* DUR_FILE, const char* FUNCTION, int LI
                 break;
 
             case CANARY_B_IS_DEAD:
-                fprintf (print_fail,"ERROR: Canary at the end of stak_t struct is dead\n");
+                fprintf (print_fail,"ERROR: Canary at the end of stack_t struct is dead\n");
                 print_choice = 1;
                 break;
 

@@ -70,7 +70,7 @@ void stack_resize (stack_t* box)
     stack_resize = (type_of_elem*) realloc (stack_resize , (box->capacity + 1) * sizeof (type_of_elem));
     MY_ASSERT (stack_resize != NULL);
     box->data = stack_resize;
-    set_canary(box);
+    set_canary (box);
 }
 
 //---------------------------------------------------------------------------------------------------------------------------

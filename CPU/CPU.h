@@ -36,7 +36,7 @@ enum code_of_com
     JA     = 23,  // >
     JAE    = 24,  // >=
     JE     = 25,  // ==
-    JNE    = 26,  // !=
+    JNE    = 26,  // =!
     CALL   = 30,
     RET    = 31,
     LABEL  = 32,

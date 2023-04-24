@@ -24,7 +24,7 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
     char*  cur_tok  = strtok (asm_prog, " \n");
     MY_ASSERT (cur_tok != NULL);
     commands[0].com = cur_tok;
-    for (int cur_elem = 1; cur_tok != NULL; cur_elem++)
+    for (int cur_elem = 1; cur_tok != NULL; cur_elem++) //TODO
     {
         if (token_mem <= cur_elem)
         {
@@ -65,7 +65,6 @@ struct token* read_word_com (size_t* count_of_com, size_t* count_of_token, int* 
             (*count_of_token)++;
             line++;
             commands[cur_elem].num_of_line = line;
-
         }
 
         else
